@@ -1,4 +1,4 @@
-create table payment_type (
+create table tb_payment_type (
 	id bigint not null auto_increment,
 	description varchar(60) not null,
 	primary key (id)
@@ -10,20 +10,20 @@ create table tb_group (
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
-create table group_permission (
+create table tb_group_permission (
 	group_id bigint not null,
 	permission_id bigint not null,
 	primary key (group_id, permission_id)
 ) engine=InnoDB default charset=utf8;
 
-create table permission (
+create table tb_permission (
 	id bigint not null auto_increment,
 	description varchar(60) not null,
 	name varchar(100) not null,
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
-create table produt (
+create table tb_produt (
 	id bigint not null auto_increment,
 	restaurant_id bigint not null,
 	name varchar(80) not null,
@@ -33,7 +33,7 @@ create table produt (
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
-create table address (
+create table tb_address (
 	id bigint not null auto_increment,
 	postal_code varchar(10) not null,
 	address varchar(200) not null,
@@ -44,7 +44,7 @@ create table address (
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
-create table restaurant (
+create table tb_restaurant (
 	id bigint not null auto_increment,
 	kitchen_id bigint not null,
 	name varchar(80) not null,
@@ -55,7 +55,7 @@ create table restaurant (
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
-create table restaurant_payment_type (
+create table tb_restaurant_payment_type (
 	restaurant_id bigint not null,
 	payment_type_id bigint not null,
 	primary key (restaurant_id, payment_type_id)
@@ -70,35 +70,35 @@ create table tb_user (
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
-create table user_group (
+create table tb_user_group (
 	user_id bigint not null,
 	grup_id bigint not null,
 	primary key (user_id, grup_id)
 ) engine=InnoDB default charset=utf8;
 
-alter table group_permission add constraint fk_group_permission_permission
-foreign key (permission_id) references permission (id);
+alter table tb_group_permission add constraint fk_tb_group_permission_tb_permission
+foreign key (permission_id) references tb_permission (id);
 
-alter table group_permission add constraint fk_group_permission_tb_group
+alter table tb_group_permission add constraint fk_tb_group_permission_tb_group
 foreign key (group_id) references tb_group (id);
 
-alter table produt add constraint fk_produt_restaurant
-foreign key (restaurant_id) references restaurant (id);
+alter table tb_produt add constraint fk_tb_produt_tb_restaurant
+foreign key (restaurant_id) references tb_restaurant (id);
 
-alter table restaurant add constraint fk_restaurant_kitchen
-foreign key (kitchen_id) references kitchen (id);
+alter table tb_restaurant add constraint fk_tb_restaurant_tb_kitchen
+foreign key (kitchen_id) references tb_kitchen (id);
 
-alter table restaurant add constraint fk_restaurant_address
-foreign key (address_id) references address (id);
+alter table tb_restaurant add constraint fk_tb_restaurant_tb_address
+foreign key (address_id) references tb_address (id);
 
-alter table restaurant_payment_type add constraint fk_restaurant_payment_type_payment_type
-foreign key (payment_type_id) references payment_type (id);
+alter table tb_restaurant_payment_type add constraint fk_tb_restaurant_payment_type_tb_payment_type
+foreign key (payment_type_id) references tb_payment_type (id);
 
-alter table restaurant_payment_type add constraint fk_restaurant_payment_type_restaurant
-foreign key (restaurant_id) references restaurant (id);
+alter table tb_restaurant_payment_type add constraint fk_tb_restaurant_tb_payment_type_restaurant
+foreign key (restaurant_id) references tb_restaurant (id);
 
-alter table user_group add constraint fk_user_group_tb_group
+alter table tb_user_group add constraint fk_tb_user_group_tb_group
 foreign key (grup_id) references tb_group (id);
 
-alter table user_group add constraint fk_user_group_tb_user
+alter table tb_user_group add constraint fk_tb_user_group_tb_user
 foreign key (user_id) references tb_user (id);

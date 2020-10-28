@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,6 +29,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Table(name = "tb_restaurant")
 public class Restaurant {
 
 	@EqualsAndHashCode.Include
@@ -46,7 +48,7 @@ public class Restaurant {
 	private Kitchen kitchen;
 	
 	@OneToOne
-	@JoinColumn(name = "address_id", nullable = false)
+	@JoinColumn(name = "address_id", nullable = true)
 	private Address address;
 	
 	@JsonIgnore

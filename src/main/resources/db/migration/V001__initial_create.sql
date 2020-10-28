@@ -1,4 +1,4 @@
-create table kitchen (
+create table tb_kitchen (
   id bigint not null auto_increment,
   name varchar(60) not null,
   
