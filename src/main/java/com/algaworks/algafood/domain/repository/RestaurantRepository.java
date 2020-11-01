@@ -19,10 +19,10 @@ public interface RestaurantRepository
 	@Query("from Restaurant r join fetch r.kitchen")
 	List<Restaurant> findAll();
 	
-	List<Restaurant> queryByTaxaFreteBetween(BigDecimal initialFee, BigDecimal finalFee);
+	List<Restaurant> queryByShippingFeeBetween(BigDecimal initialFee, BigDecimal finalFee);
 	
 //	@Query("from Restaurant where name like %:name% and kitchen.id = :id")
-	List<Restaurant> findByName(String name, @Param("id") Long kitchen);
+	List<Restaurant> searchByName(String name, @Param("id") Long id);
 	
 //	List<Restaurante> findByNameContainingAndKitchenId(String name, Long kitchen);
 	
@@ -30,6 +30,6 @@ public interface RestaurantRepository
 	
 	List<Restaurant> findTop2ByNameContaining(String name);
 	
-	int countByKitchenId(Long kitchen);
+	int countByKitchenId(Long id);
 	
 }

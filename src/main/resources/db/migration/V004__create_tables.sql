@@ -38,7 +38,7 @@ create table tb_address (
 	postal_code varchar(10) not null,
 	address varchar(200) not null,
 	number varchar(20) not null,
-	complement varchar(100) not null,
+	complement varchar(100) null,
 	district varchar(100) not null,
 	city_id bigint not null,
 	primary key (id)

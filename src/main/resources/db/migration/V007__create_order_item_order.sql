@@ -12,7 +12,7 @@ create table tb_order (
   restaurant_id bigint not null,
   client_id bigint not null,
   payment_type_id bigint not null,
-  address_id bigint(20) not null,
+  address_id bigint(20),
 
   primary key (id),
 
