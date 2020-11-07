@@ -9,5 +9,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface CustomJpaRepository<T, ID> extends JpaRepository<T, ID> {
 
 	Optional<T> findFirst();
+
+	T findOrFail(Long id);
 	
 }

@@ -43,8 +43,7 @@ public class KitchenService {
     }
 
     public Kitchen findOrFail(Long kitchenId) {
-        return kitchenRepository.findById(kitchenId)
-                .orElseThrow(() -> new KitchenNotFoundException(kitchenId));
+        return kitchenRepository.findOrFail(kitchenId);
     }
 
 }

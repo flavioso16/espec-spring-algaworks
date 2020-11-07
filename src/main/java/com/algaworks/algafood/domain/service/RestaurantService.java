@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.service;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -38,7 +39,7 @@ public class RestaurantService {
             restaurant.setKitchen(kitchen);
             return restaurantRepository.save(restaurant);
 
-        } catch (KitchenNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }
@@ -50,13 +51,13 @@ public class RestaurantService {
 
     }
 
-    public Restaurant update(Long restaurantId, Restaurant restaurant) {
+    public Restaurant update(Long restaurantId, Restaurant restaurantParam) {
         try {
-            Restaurant newRestaurant = findOrFail(restaurantId);
-            BeanUtils.copyProperties(restaurant, newRestaurant,
+            Restaurant restaurant = findOrFail(restaurantId);
+            BeanUtils.copyProperties(restaurantParam, restaurant,
                     "id", "paymentType", "address", "creationDate", "products");
 
-            return save(newRestaurant);
+            return save(restaurant);
         } catch (KitchenNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
