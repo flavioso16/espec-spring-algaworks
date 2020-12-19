@@ -32,9 +32,6 @@ public class KitchenController {
 
 	@GetMapping
 	public List<Kitchen> list() {
-		if(true) {
-			throw new IllegalArgumentException("teste");
-		}
 		return kitchenRepository.findAll();
 	}
 

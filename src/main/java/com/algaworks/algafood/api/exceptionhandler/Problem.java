@@ -20,5 +20,13 @@ public class Problem {
     private String message;
     private LocalDateTime timestamp;
     private List<Field> fields;
+
+
+    @Getter
+    @Builder
+    public static class Field {
+        private String name;
+        private String message;
+    }
     
 }

@@ -41,8 +41,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         final BindingResult bindingResult = ex.getBindingResult();
 
-        final List<Field> fields = bindingResult.getFieldErrors().stream()
-                .map(fieldError -> Field.builder()
+        final List<Problem.Field> fields = bindingResult.getFieldErrors().stream()
+                .map(fieldError -> Problem.Field.builder()
                         .name(fieldError.getField())
                         .message(fieldError.getDefaultMessage())
                         .build())
