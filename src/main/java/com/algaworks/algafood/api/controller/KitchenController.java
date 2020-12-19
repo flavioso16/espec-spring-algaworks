@@ -2,6 +2,8 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +32,9 @@ public class KitchenController {
 
 	@GetMapping
 	public List<Kitchen> list() {
+		if(true) {
+			throw new IllegalArgumentException("teste");
+		}
 		return kitchenRepository.findAll();
 	}
 
@@ -40,7 +45,7 @@ public class KitchenController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Kitchen save(@RequestBody Kitchen kitchen) {
+	public Kitchen save(@RequestBody @Valid Kitchen kitchen) {
 		return kitchenService.save(kitchen);
 	}
 

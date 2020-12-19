@@ -7,9 +7,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.exception.BusinessException;
-import com.algaworks.algafood.domain.exception.CityNotFoundException;
 import com.algaworks.algafood.domain.exception.EntityInUseException;
-import com.algaworks.algafood.domain.exception.StateNotFoundException;
+import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.City;
 import com.algaworks.algafood.domain.model.State;
 import com.algaworks.algafood.domain.repository.CityRepository;
@@ -30,7 +29,7 @@ public class CityService {
 			City newCity = findOrFail(cityId);
 			BeanUtils.copyProperties(city, newCity, "id");
 			return save(newCity);
-		} catch (StateNotFoundException e) {
+		} catch (EntityNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
@@ -42,7 +41,7 @@ public class CityService {
 			cidade.setState(state);
 			return cityRepository.save(cidade);
 
-		} catch (StateNotFoundException e) {
+		} catch (EntityNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
@@ -52,7 +51,7 @@ public class CityService {
 			cityRepository.deleteById(cityId);
 			
 		} catch (EmptyResultDataAccessException e) {
-			throw new CityNotFoundException(cityId);
+			throw new EntityNotFoundException(City.class, cityId);
 		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(
@@ -61,8 +60,7 @@ public class CityService {
 	}
 	
 	public City findOrFail(Long cidadeId) {
-		return cityRepository.findById(cidadeId)
-			.orElseThrow(() -> new CityNotFoundException(cidadeId));
+		return cityRepository.findOrFail(cidadeId);
 	}
 	
 }

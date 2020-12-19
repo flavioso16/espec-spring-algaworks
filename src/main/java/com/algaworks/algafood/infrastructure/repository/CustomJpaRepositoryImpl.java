@@ -3,12 +3,12 @@ package com.algaworks.algafood.infrastructure.repository;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
+import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.repository.CustomJpaRepository;
 
 public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID>

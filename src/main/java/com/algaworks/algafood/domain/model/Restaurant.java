@@ -16,10 +16,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.algaworks.algafood.api.validation.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -35,13 +41,19 @@ public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+//	@NotEmpty
+	@NotBlank(groups = Groups.RestaurantRegister.class)
 	@Column(nullable = false)
 	private String name;
-	
+
+	@PositiveOrZero(groups = Groups.RestaurantRegister.class)
+	@DecimalMax(value="20", groups = Groups.RestaurantRegister.class)
 	@Column(name = "shipping_fee", nullable = false)
 	private BigDecimal shippingFee;
-	
+
+	@Valid
+	@NotNull(groups = Groups.RestaurantRegister.class)
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	private Kitchen kitchen;

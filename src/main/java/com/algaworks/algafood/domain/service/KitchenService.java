@@ -7,7 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.exception.EntityInUseException;
-import com.algaworks.algafood.domain.exception.KitchenNotFoundException;
+import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
 
@@ -34,7 +34,7 @@ public class KitchenService {
             kitchenRepository.deleteById(kitchenId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new KitchenNotFoundException(kitchenId);
+            throw new EntityNotFoundException(Kitchen.class, kitchenId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(

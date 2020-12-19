@@ -3,7 +3,6 @@ package com.algaworks.algafood.domain.service;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -15,8 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import com.algaworks.algafood.domain.exception.BusinessException;
-import com.algaworks.algafood.domain.exception.KitchenNotFoundException;
-import com.algaworks.algafood.domain.exception.RestaurantNotFoundException;
+import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
@@ -58,14 +56,13 @@ public class RestaurantService {
                     "id", "paymentType", "address", "creationDate", "products");
 
             return save(restaurant);
-        } catch (KitchenNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }
 
     public Restaurant findOrFail(Long restauranteId) {
-        return restaurantRepository.findById(restauranteId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restauranteId));
+        return restaurantRepository.findOrFail(restauranteId);
     }
 
     // TODO refactor this
@@ -95,15 +92,10 @@ public class RestaurantService {
 
     // TODO Precisa validar essa implementação, talvez usar a classe ObjectMerger
     private void merge(final Restaurant source, final Restaurant target) {
-
-        ReflectionUtils.doWithFields(Restaurant.class, new ReflectionUtils.FieldCallback() {
-            @Override
-            public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-
-                field.setAccessible(true);
-                if (field.get(source) != null) {
-                    field.set(target, field.get(source));
-                }
+        ReflectionUtils.doWithFields(Restaurant.class, field -> {
+            field.setAccessible(true);
+            if (field.get(source) != null) {
+                field.set(target, field.get(source));
             }
         }, ReflectionUtils.COPYABLE_FIELDS);
     }

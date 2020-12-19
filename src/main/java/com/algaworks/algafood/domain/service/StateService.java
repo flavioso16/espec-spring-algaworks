@@ -7,7 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.exception.EntityInUseException;
-import com.algaworks.algafood.domain.exception.StateNotFoundException;
+import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.State;
 import com.algaworks.algafood.domain.repository.StateRepository;
 
@@ -35,7 +35,7 @@ public class StateService {
 			stateRepository.deleteById(stateId);
 			
 		} catch (EmptyResultDataAccessException e) {
-			throw new StateNotFoundException(stateId);
+			throw new EntityNotFoundException(State.class, stateId);
 		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(
@@ -44,8 +44,7 @@ public class StateService {
 	}
 
 	public State findOrFail(Long stateId) {
-		return stateRepository.findById(stateId)
-			.orElseThrow(() -> new StateNotFoundException(stateId));
+		return stateRepository.findOrFail(stateId);
 	}
 	
 }
