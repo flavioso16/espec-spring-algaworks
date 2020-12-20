@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.validation;
+package com.algaworks.algafood.core.validation;
 
 /**
  * @author flaoliveira

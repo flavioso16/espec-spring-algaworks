@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.groups.ConvertGroup;
 
-import com.algaworks.algafood.api.validation.Groups;
+import com.algaworks.algafood.core.validation.Groups;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
