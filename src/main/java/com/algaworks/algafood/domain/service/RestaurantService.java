@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,4 +101,7 @@ public class RestaurantService {
         }, ReflectionUtils.COPYABLE_FIELDS);
     }
 
+    public List<Restaurant> list() {
+        return restaurantRepository.findAll();
+    }
 }

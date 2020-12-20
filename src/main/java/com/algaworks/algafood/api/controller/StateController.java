@@ -2,6 +2,8 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.State;
-import com.algaworks.algafood.domain.repository.StateRepository;
 import com.algaworks.algafood.domain.service.StateService;
 
 @RestController
@@ -23,14 +24,11 @@ import com.algaworks.algafood.domain.service.StateService;
 public class StateController {
 
 	@Autowired
-	private StateRepository stateRepository;
-
-	@Autowired
 	private StateService stateService;
 	
 	@GetMapping
 	public List<State> list() {
-		return stateRepository.findAll();
+		return stateService.list();
 	}
 	
 	@GetMapping("/{stateId}")
@@ -40,12 +38,12 @@ public class StateController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public State save(@RequestBody State state) {
+	public State save(@RequestBody @Valid State state) {
 		return stateService.save(state);
 	}
 	
 	@PutMapping("/{stateId}")
-	public State atualizar(@PathVariable Long stateId, @RequestBody State state) {
+	public State update(@PathVariable Long stateId, @RequestBody @Valid State state) {
 		return stateService.update(stateId, state);
 	}
 	
@@ -54,5 +52,5 @@ public class StateController {
 	public void delete(@PathVariable Long stateId) {
 		stateService.delete(stateId);
 	}
-	
+
 }

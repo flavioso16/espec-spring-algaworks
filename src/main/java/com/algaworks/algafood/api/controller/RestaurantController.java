@@ -2,9 +2,10 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.api.validation.Groups;
 import com.algaworks.algafood.domain.model.Restaurant;
-import com.algaworks.algafood.domain.repository.RestaurantRepository;
 import com.algaworks.algafood.domain.service.RestaurantService;
 
 @RestController
@@ -25,14 +24,11 @@ import com.algaworks.algafood.domain.service.RestaurantService;
 public class RestaurantController {
 
     @Autowired
-    private RestaurantRepository restaurantRepository;
-
-    @Autowired
     private RestaurantService restaurantService;
 
     @GetMapping
     public List<Restaurant> list() {
-        return restaurantRepository.findAll();
+        return restaurantService.list();
     }
 
     @GetMapping("/{restaurantId}")
@@ -42,13 +38,13 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant save(@RequestBody @Validated(Groups.RestaurantRegister.class) Restaurant restaurant) {
+    public Restaurant save(@RequestBody @Valid Restaurant restaurant) {
         return restaurantService.save(restaurant);
     }
 
     @PutMapping("/{restaurantId}")
     public Restaurant update(@PathVariable Long restaurantId,
-            @RequestBody Restaurant restaurant) {
+            @RequestBody @Valid Restaurant restaurant) {
         return restaurantService.update(restaurantId, restaurant);
     }
 

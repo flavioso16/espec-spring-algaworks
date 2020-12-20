@@ -8,6 +8,7 @@ package com.algaworks.algafood.api.validation;
  */
 public interface Groups {
 
-    public interface RestaurantRegister {}
-
+    interface CozinhaId {}
+    interface StateId {}
+    
 }
