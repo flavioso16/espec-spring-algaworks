@@ -8,7 +8,7 @@ package com.algaworks.algafood.core.validation;
  */
 public interface Groups {
 
-    interface CozinhaId {}
+    interface KitchenId {}
     interface StateId {}
     
 }

@@ -13,7 +13,10 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 
+import com.algaworks.algafood.core.validation.ValidationException;
 import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Kitchen;
@@ -31,6 +34,9 @@ public class RestaurantService {
     @Autowired
     private KitchenService kitchenService;
 
+    @Autowired
+    private SmartValidator validator;
+
     public Restaurant save(Restaurant restaurant) {
         try {
             Long kitchenId = restaurant.getKitchen().getId();
@@ -46,8 +52,17 @@ public class RestaurantService {
     public Restaurant partialUpdate(Long restaurantId, Restaurant restaurant) {
         Restaurant newRestaurant = findOrFail(restaurantId);
         merge(restaurant, newRestaurant);
+        validate(newRestaurant, "restaurante");
         return update(restaurantId, newRestaurant);
 
+    }
+
+    private void validate(final Restaurant restaurant, final String objectName) {
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
+        validator.validate(restaurant, bindingResult);
+        if(bindingResult.hasErrors())  {
+            throw new ValidationException(bindingResult);
+        }
     }
 
     public Restaurant update(Long restaurantId, Restaurant restaurantParam) {

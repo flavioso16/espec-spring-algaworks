@@ -28,11 +28,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.algaworks.algafood.core.validation.Groups;
 import com.algaworks.algafood.core.validation.TaxaFrete;
+import com.algaworks.algafood.core.validation.ZeroValueIncludeDescription;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@ZeroValueIncludeDescription(fieldValue = "shippingFee", fieldDescription = "name", requiredDescription = "Frete Gratis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -50,14 +52,15 @@ public class Restaurant {
 	private String name;
 
 	@NotNull
-//	@PositiveOrZero //(message = "{restaurant.shippingFee.positiveOrZero}")
+	//	@PositiveOrZero //(message = "{restaurant.shippingFee.positiveOrZero}")
 	@DecimalMax(value="20")
 	@Column(name = "shipping_fee", nullable = false)
+	//	@Multiple(number = 5)
 	@TaxaFrete
 	private BigDecimal shippingFee;
 
 	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+	@ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
 	@NotNull
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kitchen_id", nullable = false)
@@ -88,5 +91,5 @@ public class Restaurant {
 	@JsonIgnore
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
-	
+
 }
