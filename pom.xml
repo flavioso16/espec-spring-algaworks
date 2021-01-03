@@ -63,6 +63,12 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>com.fasterxml.jackson.dataformat</groupId>-->
 <!--            <artifactId>jackson-dataformat-xml</artifactId>-->
@@ -86,6 +92,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -16,13 +16,19 @@ import javax.validation.constraints.NotNull;
 import com.algaworks.algafood.core.validation.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "tb_kitchen")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Kitchen {
 
 	@NotNull(groups = Groups.KitchenId.class)

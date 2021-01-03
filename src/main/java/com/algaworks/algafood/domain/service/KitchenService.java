@@ -41,6 +41,9 @@ public class KitchenService {
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(
                     String.format(MSG_KITCHEN_IN_USE, kitchenId));
+        }  catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 
