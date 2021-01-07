@@ -1,7 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,11 +77,11 @@ public class Restaurant {
 	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime creationDate;
+	private OffsetDateTime creationDate;
 	
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime updateDate;
+	private OffsetDateTime updateDate;
 	
 	@ManyToMany
 	@JoinTable(name = "tb_restaurant_payment_type",
