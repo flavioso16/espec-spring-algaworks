@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
@@ -37,6 +38,7 @@ public class RestaurantService {
     @Autowired
     private SmartValidator validator;
 
+    @Transactional
     public Restaurant save(Restaurant restaurant) {
         try {
             Long kitchenId = restaurant.getKitchen().getId();
@@ -49,6 +51,7 @@ public class RestaurantService {
         }
     }
 
+    @Transactional
     public Restaurant partialUpdate(Long restaurantId, Restaurant restaurant) {
         Restaurant newRestaurant = findOrFail(restaurantId);
         merge(restaurant, newRestaurant);
@@ -64,7 +67,8 @@ public class RestaurantService {
             throw new ValidationException(bindingResult);
         }
     }
-
+    
+    @Transactional
     public Restaurant update(Long restaurantId, Restaurant restaurantParam) {
         try {
             Restaurant restaurant = findOrFail(restaurantId);

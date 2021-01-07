@@ -29,7 +29,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.algaworks.algafood.core.validation.Groups;
 import com.algaworks.algafood.core.validation.TaxaFrete;
 import com.algaworks.algafood.core.validation.ZeroValueIncludeDescription;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -72,29 +71,24 @@ public class Restaurant {
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	private Kitchen kitchen;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-//	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime creationDate;
 	
-//	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime updateDate;
 	
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "tb_restaurant_payment_type",
 			joinColumns = @JoinColumn(name = "restaurant_id"),
 			inverseJoinColumns = @JoinColumn(name = "payment_type_id"))
 	private List<PaymentType> paymentTypes = new ArrayList<>();
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
 
