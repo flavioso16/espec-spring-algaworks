@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -244,6 +245,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 status, webRequest);
     }
 
+    public ResponseEntity<Object> handleDateTimeParseException(DateTimeParseException e,
+            HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+
+        final Problem problem = createProblemBuilder(status, ProblemType.MESSAGE_INCOMPREHENSIBLE,
+                e.getMessage())
+                .build();
+
+        return handleExceptionInternal(e, problem, new HttpHeaders(),
+                status, webRequest);
+    }
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, Object body,
@@ -254,14 +266,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .title(status.getReasonPhrase())
                     .status(status.value())
                     .message(MSG_ERROR_MESSAGE)
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .build();
         } else if(body instanceof String){
             body = Problem.builder()
                     .title((String) body)
                     .status(status.value())
                     .message(MSG_ERROR_MESSAGE)
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .build();
         }
         return super.handleExceptionInternal(ex, body, headers, status, request);
@@ -279,7 +291,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .type(problemType.getUri())
                 .title(problemType.getTitle())
                 .message(message)
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .detail(detail);
     }
 

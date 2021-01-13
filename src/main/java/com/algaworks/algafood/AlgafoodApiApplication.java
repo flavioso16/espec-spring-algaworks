@@ -1,6 +1,5 @@
 package com.algaworks.algafood;
 
-import java.time.LocalDateTime;
 import java.util.TimeZone;
 
 import org.springframework.boot.SpringApplication;
@@ -15,7 +14,6 @@ public class AlgafoodApiApplication {
 
 	public static void main(String[] args) {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-		System.out.println(LocalDateTime.now());
 		SpringApplication.run(AlgafoodApiApplication.class, args);
 	}
 
