@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.domain.dto.RestaurantDTO;
@@ -16,7 +17,8 @@ import com.algaworks.algafood.domain.vo.RestaurantVO;
 @Component
 public class RestaurantMapper {
 
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
 
     public RestaurantDTO toDTO(Restaurant restaurant) {
         return modelMapper.map(restaurant, RestaurantDTO.class);
