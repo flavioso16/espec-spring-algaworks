@@ -16,18 +16,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.algaworks.algafood.core.validation.Groups;
-import com.algaworks.algafood.core.validation.TaxaFrete;
 import com.algaworks.algafood.core.validation.ZeroValueIncludeDescription;
 
 import lombok.AllArgsConstructor;
@@ -51,22 +43,12 @@ public class Restaurant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-//	@NotEmpty
-	@NotBlank
 	@Column(nullable = false)
 	private String name;
 
-	@NotNull
-	//	@PositiveOrZero //(message = "{restaurant.shippingFee.positiveOrZero}")
-	@DecimalMax(value="20")
 	@Column(name = "shipping_fee", nullable = false)
-	//	@Multiple(number = 5)
-	@TaxaFrete
 	private BigDecimal shippingFee;
 
-	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
-	@NotNull
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	private Kitchen kitchen;
