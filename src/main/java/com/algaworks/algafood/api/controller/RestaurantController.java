@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.dto.KitchenDTO;
+import com.algaworks.algafood.api.RestaurantMapper;
 import com.algaworks.algafood.domain.dto.RestaurantDTO;
-import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.service.RestaurantService;
 import com.algaworks.algafood.domain.vo.RestaurantVO;
@@ -31,54 +30,36 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    private RestaurantMapper mapper;
+
     @GetMapping
     public List<RestaurantDTO> list() {
         return restaurantService.list().stream()
-                .map(this::toDTO).collect(Collectors.toList());
+                .map(mapper::toDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{restaurantId}")
     public RestaurantDTO find(@PathVariable Long restaurantId) {
-        return toDTO(restaurantService.findOrFail(restaurantId));
+        return mapper.toDTO(restaurantService.findOrFail(restaurantId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestaurantDTO save(@RequestBody @Valid RestaurantVO restaurant) {
-        return toDTO(restaurantService.save(toEntity(restaurant)));
+        return mapper.toDTO(restaurantService.save(mapper.toEntity(restaurant)));
     }
 
     @PutMapping("/{restaurantId}")
     public RestaurantDTO update(@PathVariable Long restaurantId,
             @RequestBody @Valid RestaurantVO restaurant) {
-        return toDTO(restaurantService.update(restaurantId, toEntity(restaurant)));
+        return mapper.toDTO(restaurantService.update(restaurantId, mapper.toEntity(restaurant)));
     }
 
     @PatchMapping("/{restaurantId}")
     public RestaurantDTO partialUpdate(@PathVariable Long restaurantId,
             @RequestBody Restaurant restaurant) {
-        return toDTO(restaurantService.partialUpdate(restaurantId, restaurant));
-    }
-
-    private RestaurantDTO toDTO(final Restaurant restaurant) {
-        final RestaurantDTO restaurantDTO = new RestaurantDTO();
-        restaurantDTO.setId(restaurant.getId());
-        restaurantDTO.setName(restaurant.getName());
-        restaurantDTO.setShippingFee(restaurant.getShippingFee());
-        KitchenDTO kitchenDTO = new KitchenDTO();
-        kitchenDTO.setId(restaurant.getKitchen().getId());
-        kitchenDTO.setName(restaurant.getKitchen().getName());
-        restaurantDTO.setKitchen(kitchenDTO);
-        return restaurantDTO;
-    }
-
-    private Restaurant toEntity(final RestaurantVO restaurantVO) {
-        final Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurantVO.getName());
-        restaurant.setShippingFee(restaurantVO.getShippingFee());
-        restaurant.setKitchen(new Kitchen());
-        restaurant.getKitchen().setId(restaurantVO.getKitchen().getId());
-        return restaurant;
+        return mapper.toDTO(restaurantService.partialUpdate(restaurantId, restaurant));
     }
 
 }
