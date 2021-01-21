@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.domain.dto.RestaurantDTO;
+import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.vo.RestaurantVO;
 
@@ -26,6 +27,11 @@ public class RestaurantMapper {
 
     public Restaurant toEntity(RestaurantVO restaurantVO) {
         return modelMapper.map(restaurantVO, Restaurant.class);
+    }
+
+    public void copy(RestaurantVO restaurantVO, Restaurant restaurant) {
+        restaurant.setKitchen(new Kitchen());
+        modelMapper.map(restaurantVO, restaurant);
     }
 
 }

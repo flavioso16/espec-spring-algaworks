@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.vo;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 /**
@@ -11,6 +13,7 @@ import lombok.Data;
 @Data
 public class KitchenIdVO {
 
+    @NotNull
     private Long id;
     
 }

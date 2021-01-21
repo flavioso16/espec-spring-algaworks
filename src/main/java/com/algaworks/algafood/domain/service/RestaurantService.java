@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -17,12 +16,14 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 
+import com.algaworks.algafood.api.mapper.RestaurantMapper;
 import com.algaworks.algafood.core.validation.ValidationException;
 import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
+import com.algaworks.algafood.domain.vo.RestaurantVO;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,6 +38,9 @@ public class RestaurantService {
 
     @Autowired
     private SmartValidator validator;
+
+    @Autowired
+    private RestaurantMapper restaurantMapper;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
@@ -53,11 +57,14 @@ public class RestaurantService {
 
     @Transactional
     public Restaurant partialUpdate(Long restaurantId, Restaurant restaurant) {
-        Restaurant newRestaurant = findOrFail(restaurantId);
-        merge(restaurant, newRestaurant);
-        validate(newRestaurant, "restaurante");
-        return update(restaurantId, newRestaurant);
-
+        try {
+            Restaurant newRestaurant = findOrFail(restaurantId);
+            merge(restaurant, newRestaurant);
+            validate(newRestaurant, "restaurante");
+            return save(newRestaurant);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     private void validate(final Restaurant restaurant, final String objectName) {
@@ -69,12 +76,10 @@ public class RestaurantService {
     }
     
     @Transactional
-    public Restaurant update(Long restaurantId, Restaurant restaurantParam) {
+    public Restaurant update(Long restaurantId, RestaurantVO restaurantVO) {
         try {
             Restaurant restaurant = findOrFail(restaurantId);
-            BeanUtils.copyProperties(restaurantParam, restaurant,
-                    "id", "paymentType", "address", "creationDate", "products");
-
+            restaurantMapper.copy(restaurantVO, restaurant);
             return save(restaurant);
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage());

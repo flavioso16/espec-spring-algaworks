@@ -53,7 +53,8 @@ public class RestaurantController {
     @PutMapping("/{restaurantId}")
     public RestaurantDTO update(@PathVariable Long restaurantId,
             @RequestBody @Valid RestaurantVO restaurant) {
-        return mapper.toDTO(restaurantService.update(restaurantId, mapper.toEntity(restaurant)));
+        
+        return mapper.toDTO(restaurantService.update(restaurantId, restaurant));
     }
 
     @PatchMapping("/{restaurantId}")

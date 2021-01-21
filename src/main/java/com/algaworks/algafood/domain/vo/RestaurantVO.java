@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.algaworks.algafood.core.validation.TaxaFrete;
+import com.algaworks.algafood.core.validation.ZeroValueIncludeDescription;
 
 import lombok.Data;
 
@@ -17,6 +18,7 @@ import lombok.Data;
  * : $
  * @since 1/17/21 7:49 PM
  */
+@ZeroValueIncludeDescription(fieldValue = "shippingFee", fieldDescription = "name", requiredDescription = "Frete Gratis")
 @Data
 public class RestaurantVO {
 
