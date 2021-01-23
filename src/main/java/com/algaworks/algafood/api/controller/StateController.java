@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.model.State;
+import com.algaworks.algafood.api.mapper.StateMapper;
+import com.algaworks.algafood.domain.dto.StateDTO;
 import com.algaworks.algafood.domain.service.StateService;
+import com.algaworks.algafood.domain.vo.StateVO;
 
 @RestController
 @RequestMapping("/states")
@@ -25,26 +27,29 @@ public class StateController {
 
 	@Autowired
 	private StateService stateService;
+
+	@Autowired
+	private StateMapper mapper;
 	
 	@GetMapping
-	public List<State> list() {
-		return stateService.list();
+	public List<StateDTO> list() {
+		return mapper.toListDto(stateService.list());
 	}
 	
 	@GetMapping("/{stateId}")
-	public State find(@PathVariable Long stateId) {
-		return stateService.findOrFail(stateId);
+	public StateDTO find(@PathVariable Long stateId) {
+		return mapper.toDto(stateService.findOrFail(stateId));
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public State save(@RequestBody @Valid State state) {
-		return stateService.save(state);
+	public StateDTO save(@RequestBody @Valid StateVO state) {
+		return mapper.toDto(stateService.save(mapper.toEntity(state)));
 	}
 	
 	@PutMapping("/{stateId}")
-	public State update(@PathVariable Long stateId, @RequestBody @Valid State state) {
-		return stateService.update(stateId, state);
+	public StateDTO update(@PathVariable Long stateId, @RequestBody @Valid StateVO state) {
+		return mapper.toDto(stateService.update(stateId, state));
 	}
 	
 	@DeleteMapping("/{stateId}")

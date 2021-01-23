@@ -2,19 +2,20 @@ package com.algaworks.algafood.domain.service;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.api.mapper.CityMapper;
 import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityInUseException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.City;
 import com.algaworks.algafood.domain.model.State;
 import com.algaworks.algafood.domain.repository.CityRepository;
+import com.algaworks.algafood.domain.vo.CityVO;
 
 @Service
 public class CityService {
@@ -27,11 +28,14 @@ public class CityService {
 	@Autowired
 	private StateService stateService;
 
+	@Autowired
+	private CityMapper mapper;
+
 	@Transactional
-	public City update(Long cityId, City city) {
+	public City update(Long cityId, CityVO city) {
 		try {
 			City newCity = findOrFail(cityId);
-			BeanUtils.copyProperties(city, newCity, "id");
+			mapper.copy(city, newCity);
 			return save(newCity);
 		} catch (EntityNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
@@ -55,6 +59,7 @@ public class CityService {
 	public void delete(Long cityId) {
 		try {
 			cityRepository.deleteById(cityId);
+			cityRepository.flush();
 			
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(City.class, cityId);

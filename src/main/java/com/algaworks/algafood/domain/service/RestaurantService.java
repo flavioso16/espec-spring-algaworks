@@ -40,7 +40,7 @@ public class RestaurantService {
     private SmartValidator validator;
 
     @Autowired
-    private RestaurantMapper restaurantMapper;
+    private RestaurantMapper mapper;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
@@ -60,7 +60,7 @@ public class RestaurantService {
         try {
             Restaurant newRestaurant = findOrFail(restaurantId);
             merge(restaurant, newRestaurant);
-            validate(newRestaurant, "restaurante");
+            validate(newRestaurant, "restaurant");
             return save(newRestaurant);
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage());
@@ -79,7 +79,8 @@ public class RestaurantService {
     public Restaurant update(Long restaurantId, RestaurantVO restaurantVO) {
         try {
             Restaurant restaurant = findOrFail(restaurantId);
-            restaurantMapper.copy(restaurantVO, restaurant);
+            restaurant.setKitchen(new Kitchen());
+            mapper.copy(restaurantVO, restaurant);
             return save(restaurant);
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage());

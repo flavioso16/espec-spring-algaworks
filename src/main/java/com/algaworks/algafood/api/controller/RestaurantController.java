@@ -1,7 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -35,32 +34,31 @@ public class RestaurantController {
 
     @GetMapping
     public List<RestaurantDTO> list() {
-        return restaurantService.list().stream()
-                .map(mapper::toDTO).collect(Collectors.toList());
+        return mapper.toListDto(restaurantService.list());
     }
 
     @GetMapping("/{restaurantId}")
     public RestaurantDTO find(@PathVariable Long restaurantId) {
-        return mapper.toDTO(restaurantService.findOrFail(restaurantId));
+        return mapper.toDto(restaurantService.findOrFail(restaurantId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestaurantDTO save(@RequestBody @Valid RestaurantVO restaurant) {
-        return mapper.toDTO(restaurantService.save(mapper.toEntity(restaurant)));
+        return mapper.toDto(restaurantService.save(mapper.toEntity(restaurant)));
     }
 
     @PutMapping("/{restaurantId}")
     public RestaurantDTO update(@PathVariable Long restaurantId,
             @RequestBody @Valid RestaurantVO restaurant) {
         
-        return mapper.toDTO(restaurantService.update(restaurantId, restaurant));
+        return mapper.toDto(restaurantService.update(restaurantId, restaurant));
     }
 
     @PatchMapping("/{restaurantId}")
     public RestaurantDTO partialUpdate(@PathVariable Long restaurantId,
             @RequestBody Restaurant restaurant) {
-        return mapper.toDTO(restaurantService.partialUpdate(restaurantId, restaurant));
+        return mapper.toDto(restaurantService.partialUpdate(restaurantId, restaurant));
     }
 
 }

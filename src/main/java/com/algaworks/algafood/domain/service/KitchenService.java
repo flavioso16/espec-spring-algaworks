@@ -2,17 +2,18 @@ package com.algaworks.algafood.domain.service;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.api.mapper.KitchenMapper;
 import com.algaworks.algafood.domain.exception.EntityInUseException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
+import com.algaworks.algafood.domain.vo.KitchenVO;
 
 @Service
 public class KitchenService {
@@ -22,14 +23,17 @@ public class KitchenService {
     @Autowired
     private KitchenRepository kitchenRepository;
 
+    @Autowired
+    private KitchenMapper mapper;
+
     @Transactional
     public Kitchen save(Kitchen kitchen) {
         return kitchenRepository.save(kitchen);
     }
 
-    public Kitchen update(Long kitchenId, Kitchen kitchen) {
+    public Kitchen update(Long kitchenId, KitchenVO kitchen) {
         Kitchen newKitchen = findOrFail(kitchenId);
-        BeanUtils.copyProperties(kitchen, newKitchen, "id");
+        mapper.copy(kitchen, newKitchen);
         return save(newKitchen);
     }
 
@@ -37,6 +41,7 @@ public class KitchenService {
     public void delete(Long kitchenId) {
         try {
             kitchenRepository.deleteById(kitchenId);
+            kitchenRepository.flush();
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException(Kitchen.class, kitchenId);
@@ -57,5 +62,6 @@ public class KitchenService {
     public List<Kitchen> list() {
         return kitchenRepository.findAll();
     }
+
 
 }

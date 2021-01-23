@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.model.Kitchen;
+import com.algaworks.algafood.api.mapper.KitchenMapper;
+import com.algaworks.algafood.domain.dto.KitchenDTO;
 import com.algaworks.algafood.domain.service.KitchenService;
+import com.algaworks.algafood.domain.vo.KitchenVO;
 
 @RestController
 @RequestMapping(value = "/kitchens")
@@ -26,25 +28,28 @@ public class KitchenController {
 	@Autowired
 	private KitchenService kitchenService;
 
+	@Autowired
+	private KitchenMapper mapper;
+
 	@GetMapping
-	public List<Kitchen> list() {
-		return kitchenService.list();
+	public List<KitchenDTO> list() {
+		return mapper.toListDto(kitchenService.list());
 	}
 
 	@GetMapping("/{kitchenId}")
-	public Kitchen find(@PathVariable Long kitchenId) {
-		return kitchenService.findOrFail(kitchenId);
+	public KitchenDTO find(@PathVariable Long kitchenId) {
+		return mapper.toDto(kitchenService.findOrFail(kitchenId));
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Kitchen save(@RequestBody @Valid Kitchen kitchen) {
-		return kitchenService.save(kitchen);
+	public KitchenDTO save(@RequestBody @Valid KitchenVO kitchen) {
+		return mapper.toDto(kitchenService.save(mapper.toEntity(kitchen)));
 	}
 
 	@PutMapping("/{kitchenId}")
-	public Kitchen update(@PathVariable Long kitchenId, @RequestBody @Valid Kitchen kitchen) {
-		return kitchenService.update(kitchenId, kitchen);
+	public KitchenDTO update(@PathVariable Long kitchenId, @RequestBody @Valid KitchenVO kitchen) {
+		return mapper.toDto(kitchenService.update(kitchenId, kitchen));
 	}
 	
 	@DeleteMapping("/{kitchenId}")

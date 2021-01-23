@@ -2,17 +2,18 @@ package com.algaworks.algafood.domain.service;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.api.mapper.StateMapper;
 import com.algaworks.algafood.domain.exception.EntityInUseException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.State;
 import com.algaworks.algafood.domain.repository.StateRepository;
+import com.algaworks.algafood.domain.vo.StateVO;
 
 @Service
 public class StateService {
@@ -23,11 +24,14 @@ public class StateService {
 	@Autowired
 	private StateRepository stateRepository;
 
+	@Autowired
+	private StateMapper mapper;
+
 	@Transactional
-	public State update(Long stateId, State state) {
+	public State update(Long stateId, StateVO state) {
 		State newState = findOrFail(stateId);
-		BeanUtils.copyProperties(state, newState, "id");
-		return stateRepository.save(state);
+		mapper.copy(state, newState);
+		return stateRepository.save(newState);
 	}
 
 	@Transactional
@@ -39,6 +43,7 @@ public class StateService {
 	public void delete(Long stateId) {
 		try {
 			stateRepository.deleteById(stateId);
+			stateRepository.flush();
 			
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(State.class, stateId);
