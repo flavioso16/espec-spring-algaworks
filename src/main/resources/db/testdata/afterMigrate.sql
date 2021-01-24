@@ -44,12 +44,12 @@ insert into tb_city (id, name, state_id) values (5, 'Fortaleza', 3);
 
 insert into tb_address (id, postal_code, address, number, district, city_id) values (1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro', 1);
 
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, creation_date, update_date, address_id) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, 1);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, creation_date, update_date) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, creation_date, update_date) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, creation_date, update_date) values (4, 'Java Steakhouse', 12, 3, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, creation_date, update_date) values (5, 'Lanchonete do Tio Sam', 11, 4, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, creation_date, update_date) values (6, 'Bar da Maria', 6, 4, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date, address_id) values (1, 'Thai Gourmet', 10, 1, true, utc_timestamp, utc_timestamp, 1);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (2, 'Thai Delivery', 9.50, 1, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (3, 'Tuk Tuk Comida Indiana', 15, 2, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (4, 'Java Steakhouse', 12, 3, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (5, 'Lanchonete do Tio Sam', 11, 4, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (6, 'Bar da Maria', 6, 4, true, utc_timestamp, utc_timestamp);
 
 insert into tb_payment_type (id, description) values (1, 'Cartão de crédito');
 insert into tb_payment_type (id, description) values (2, 'Cartão de débito');

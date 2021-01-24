@@ -129,4 +129,16 @@ public class RestaurantService {
     public List<Restaurant> list() {
         return restaurantRepository.findAll();
     }
+
+    @Transactional
+    public void activate(final Long restaurantId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        restaurant.activate();;
+    }
+
+    @Transactional
+    public void inactivate(final Long restaurantId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        restaurant.inactivate();;
+    }
 }

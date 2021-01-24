@@ -73,4 +73,14 @@ public class Restaurant {
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
 
+	private Boolean active = Boolean.TRUE;
+
+	public void activate() {
+		this.active = Boolean.TRUE;
+	}
+
+	public void inactivate() {
+		this.active = Boolean.FALSE;
+	}
+
 }

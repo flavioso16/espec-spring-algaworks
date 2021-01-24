@@ -61,4 +61,16 @@ public class RestaurantController {
         return mapper.toDto(restaurantService.partialUpdate(restaurantId, restaurant));
     }
 
+    @PutMapping("/{restaurantId}/activate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activate(@PathVariable Long restaurantId) {
+        restaurantService.activate(restaurantId);
+    }
+
+    @PutMapping("/{restaurantId}/inactivate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactivate(@PathVariable Long restaurantId) {
+        restaurantService.inactivate(restaurantId);
+    }
+
 }
