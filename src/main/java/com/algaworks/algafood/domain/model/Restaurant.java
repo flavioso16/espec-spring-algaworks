@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.algaworks.algafood.core.validation.ZeroValueIncludeDescription;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +35,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ZeroValueIncludeDescription(fieldValue = "shippingFee", fieldDescription = "name", requiredDescription = "Frete Gratis")
 public class Restaurant {
 
 	@EqualsAndHashCode.Include

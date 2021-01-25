@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import static com.algaworks.algafood.core.constants.MessageConstants.MSG_ENTITY_IN_USE;
+
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -21,8 +23,6 @@ import com.algaworks.algafood.domain.vo.AddressVO;
 
 @Service
 public class AddressService {
-
-    private static final String MSG_ADDRESS_IN_USE = "Endereço de código %d não pode ser removido, pois está em uso";
 
     @Autowired
     private AddressRepository addressRepository;
@@ -67,7 +67,7 @@ public class AddressService {
 
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(
-                    String.format(MSG_ADDRESS_IN_USE, addressId));
+                    String.format(MSG_ENTITY_IN_USE, "Endereço", addressId));
         }  catch (Exception e) {
             e.printStackTrace();
             throw e;

@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import static com.algaworks.algafood.core.constants.MessageConstants.MSG_ENTITY_IN_USE;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,6 @@ import com.algaworks.algafood.domain.vo.StateVO;
 
 @Service
 public class StateService {
-
-	private static final String MSG_STATE_IN_USE
-		= "Estado de código %d não pode ser removido, pois está em uso";
 	
 	@Autowired
 	private StateRepository stateRepository;
@@ -50,7 +49,7 @@ public class StateService {
 		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(
-				String.format(MSG_STATE_IN_USE, stateId));
+				String.format(MSG_ENTITY_IN_USE, "Estado", stateId));
 		}
 	}
 

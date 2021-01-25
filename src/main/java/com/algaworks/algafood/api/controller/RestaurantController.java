@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.algaworks.algafood.api.mapper.RestaurantMapper;
 import com.algaworks.algafood.domain.dto.RestaurantDTO;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.service.RestaurantService;
+import com.algaworks.algafood.domain.vo.RestaurantPartialVO;
 import com.algaworks.algafood.domain.vo.RestaurantVO;
 
 @RestController
@@ -31,6 +33,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantMapper mapper;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
     public List<RestaurantDTO> list() {
@@ -57,7 +62,8 @@ public class RestaurantController {
 
     @PatchMapping("/{restaurantId}")
     public RestaurantDTO partialUpdate(@PathVariable Long restaurantId,
-            @RequestBody Restaurant restaurant) {
+            @RequestBody @Valid RestaurantPartialVO restaurantVO) {
+        final Restaurant restaurant = modelMapper.map(restaurantVO, Restaurant.class);
         return mapper.toDto(restaurantService.partialUpdate(restaurantId, restaurant));
     }
 

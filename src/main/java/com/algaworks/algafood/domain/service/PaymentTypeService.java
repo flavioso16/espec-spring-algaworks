@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import static com.algaworks.algafood.core.constants.MessageConstants.MSG_ENTITY_IN_USE;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,6 @@ import com.algaworks.algafood.domain.vo.PaymentTypeVO;
  */
 @Service
 public class PaymentTypeService {
-
-    private static final String MSG_PAYMENT_TYPE_IN_USE = "Forma de Pagamento de código %d não pode ser removida, pois está em uso";
 
     @Autowired
     private PaymentTypeRepository paymentTypeRepository;
@@ -58,7 +58,7 @@ public class PaymentTypeService {
 
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(
-                    String.format(MSG_PAYMENT_TYPE_IN_USE, paymentTypeId));
+                    String.format(MSG_ENTITY_IN_USE, "Forma de Pagamento", paymentTypeId));
         }  catch (Exception e) {
             e.printStackTrace();
             throw e;

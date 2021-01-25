@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import static com.algaworks.algafood.core.constants.MessageConstants.MSG_ENTITY_IN_USE;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,6 @@ import com.algaworks.algafood.domain.vo.KitchenVO;
 
 @Service
 public class KitchenService {
-
-    private static final String MSG_KITCHEN_IN_USE = "Cozinha de código %d não pode ser removida, pois está em uso";
 
     @Autowired
     private KitchenRepository kitchenRepository;
@@ -48,7 +48,7 @@ public class KitchenService {
 
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(
-                    String.format(MSG_KITCHEN_IN_USE, kitchenId));
+                    String.format(MSG_ENTITY_IN_USE, "Cozinha", kitchenId));
         }  catch (Exception e) {
             e.printStackTrace();
             throw e;
