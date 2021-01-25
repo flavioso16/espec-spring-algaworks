@@ -31,6 +31,7 @@ public class KitchenService {
         return kitchenRepository.save(kitchen);
     }
 
+    @Transactional
     public Kitchen update(Long kitchenId, KitchenVO kitchen) {
         Kitchen newKitchen = findOrFail(kitchenId);
         mapper.copy(kitchen, newKitchen);

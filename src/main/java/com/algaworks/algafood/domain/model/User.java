@@ -44,8 +44,12 @@ public class User {
 	private OffsetDateTime creationDate;
 	
 	@ManyToMany
-	@JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"),
+	@JoinTable(name = "tb_user_group", joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "grup_id"))
 	private List<Group> groups = new ArrayList<>();
+
+	public Boolean doesPasswordNotMatch(final String password) {
+		return !this.password.equals(password);
+	}
 	
 }

@@ -37,6 +37,7 @@ public class PaymentTypeService {
         return paymentTypeRepository.save(paymentType);
     }
 
+    @Transactional
     public PaymentType update(Long paymentTypeId, PaymentTypeVO paymentTypeVO) {
         PaymentType paymentType = findOrFail(paymentTypeId);
         mapper.copy(paymentTypeVO, paymentType);

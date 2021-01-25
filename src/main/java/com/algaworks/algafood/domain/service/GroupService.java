@@ -38,6 +38,7 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
+    @Transactional
     public Group update(Long groupId, GroupVO groupVO) {
         Group group = findOrFail(groupId);
         mapper.map(groupVO, group);

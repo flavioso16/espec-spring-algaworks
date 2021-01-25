@@ -71,3 +71,9 @@ insert into tb_produt (name, description, price, active, restaurant_id) values (
 insert into tb_produt (name, description, price, active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
 insert into tb_group (name) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
+
+insert into tb_user (id, name, email, password, creation_date) values
+(1, 'User One', 'user1@algafood.com', 'user1', utc_timestamp),
+(2, 'User Two', 'user2@algafood.com', 'user2', utc_timestamp),
+(3, 'User Three', 'user3@algafood.com', 'user3', utc_timestamp),
+(4, 'User Four', 'user4@algafood.com', 'user4', utc_timestamp);
