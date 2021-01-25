@@ -46,7 +46,7 @@ public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID>
 
 			return entity;
 		} catch (NoResultException e) {
-			throw new EntityNotFoundException(String.format("Resource type %s of ID %d not found.", getDomainClass().getName(), id));
+			throw new EntityNotFoundException(String.format("Resource type %s of ID %d not found.", getDomainClass().getSimpleName(), id));
 		}
 	}
 

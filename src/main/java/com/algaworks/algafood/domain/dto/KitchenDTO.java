@@ -1,7 +1,6 @@
 package com.algaworks.algafood.domain.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * @author flaoliveira
@@ -9,8 +8,7 @@ import lombok.Setter;
  * : $
  * @since 1/12/21 10:34 PM
  */
-@Getter
-@Setter
+@Data
 public class KitchenDTO {
 
     private Long id;

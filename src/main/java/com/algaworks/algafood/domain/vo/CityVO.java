@@ -12,6 +12,6 @@ public class CityVO {
 	private String name;
 
 	@Valid
-	private StateIdVO state;
+	private IdVO state;
 
 }

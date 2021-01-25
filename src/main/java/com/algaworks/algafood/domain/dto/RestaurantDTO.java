@@ -2,8 +2,7 @@ package com.algaworks.algafood.domain.dto;
 
 import java.math.BigDecimal;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * @author flaoliveira
@@ -11,8 +10,7 @@ import lombok.Setter;
  * : $
  * @since 1/12/21 10:30 PM
  */
-@Getter
-@Setter
+@Data
 public class RestaurantDTO {
 
     private Long id;

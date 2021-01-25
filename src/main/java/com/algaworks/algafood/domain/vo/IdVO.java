@@ -8,12 +8,12 @@ import lombok.Data;
  * @author flaoliveira
  * @version : $<br/>
  * : $
- * @since 1/17/21 7:50 PM
+ * @since 1/24/21 5:00 PM
  */
 @Data
-public class KitchenIdVO {
+public class IdVO<T> {
 
     @NotNull
-    private Long id;
-    
+    private T id;
+
 }

@@ -35,6 +35,10 @@ public class RestaurantVO {
 
     @Valid
     @NotNull
-    private KitchenIdVO kitchen;
+    private IdVO kitchen;
+
+    @Valid
+    @NotNull
+    private IdVO address;
 
 }

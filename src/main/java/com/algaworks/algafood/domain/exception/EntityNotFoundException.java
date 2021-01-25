@@ -9,7 +9,7 @@ public class EntityNotFoundException extends BusinessException {
 	}
 
 	public EntityNotFoundException(Class clazz, Long id) {
-		super(String.format("Resource type %s of ID %d not found.", clazz.getName(), id));
+		super(String.format("Resource type %s of ID %d not found.", clazz.getSimpleName(), id));
 	}
 	
 }

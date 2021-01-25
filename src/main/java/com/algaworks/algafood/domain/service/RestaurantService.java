@@ -20,6 +20,7 @@ import com.algaworks.algafood.api.mapper.RestaurantMapper;
 import com.algaworks.algafood.core.validation.ValidationException;
 import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
+import com.algaworks.algafood.domain.model.Address;
 import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
@@ -37,6 +38,9 @@ public class RestaurantService {
     private KitchenService kitchenService;
 
     @Autowired
+    private AddressService addressService;
+
+    @Autowired
     private SmartValidator validator;
 
     @Autowired
@@ -45,9 +49,13 @@ public class RestaurantService {
     @Transactional
     public Restaurant save(Restaurant restaurant) {
         try {
-            Long kitchenId = restaurant.getKitchen().getId();
-            Kitchen kitchen = kitchenService.findOrFail(kitchenId);
+
+            Kitchen kitchen = kitchenService.findOrFail(restaurant.getKitchen().getId());
             restaurant.setKitchen(kitchen);
+
+            Address address = addressService.findOrFail(restaurant.getAddress().getId());
+            restaurant.setAddress(address);
+
             return restaurantRepository.save(restaurant);
 
         } catch (EntityNotFoundException e) {
