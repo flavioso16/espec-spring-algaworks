@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.service;
 import static com.algaworks.algafood.core.constants.MessageConstants.MSG_ENTITY_IN_USE;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,15 @@ public class UserService {
 
     @Transactional
     public User save(final User user) {
+        userRepository.detach(user);
+
+        final Optional<User> existentUser = userRepository.findByEmail(user.getEmail());
+
+        if(existentUser.isPresent() && !existentUser.get().equals(user)) {
+            throw new BusinessException(
+                    String.format("Já existe um usuário cadastrado com o e-mail %s", user.getEmail()));
+        }
+        
         return userRepository.save(user);
     }
 
