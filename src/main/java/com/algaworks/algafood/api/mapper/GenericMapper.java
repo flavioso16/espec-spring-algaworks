@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.mapper;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ abstract class GenericMapper <E, VO, DTO>{
         return mapper.map(entityClass, getResponseClass());
     }
 
-    public List<DTO> toListDto(List<E> requestEntities) {
+    public List<DTO> toListDto(Collection<E> requestEntities) {
         return requestEntities.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());

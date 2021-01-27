@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Address;
 import com.algaworks.algafood.domain.model.Kitchen;
+import com.algaworks.algafood.domain.model.PaymentType;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
 import com.algaworks.algafood.domain.vo.RestaurantVO;
@@ -31,6 +33,9 @@ public class RestaurantService {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private PaymentTypeService paymentTypeService;
 
     @Autowired
     private SmartValidator validator;
@@ -110,12 +115,38 @@ public class RestaurantService {
     @Transactional
     public void activate(final Long restaurantId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        restaurant.activate();;
+        restaurant.activate();
     }
 
     @Transactional
     public void inactivate(final Long restaurantId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        restaurant.inactivate();;
+        restaurant.inactivate();
+    }
+
+    @Transactional
+    public void bindPaymentType(final Long restaurantId, final Long paymentTypeId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        if(isPaymentTypeBonded(restaurant, paymentTypeId)) {
+            PaymentType paymentType = paymentTypeService.findOrFail(paymentTypeId);
+            restaurant.bindPaymentType(paymentType);
+        }
+    }
+
+    @Transactional
+    public void unbindPaymentType(final Long restaurantId, final Long paymentTypeId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        findPaymentType(restaurant, paymentTypeId)
+                .ifPresent(restaurant::unbindPaymentType);
+    }
+
+    private Optional<PaymentType> findPaymentType(Restaurant restaurant, Long paymentTypeId) {
+        return restaurant.getPaymentTypes().stream()
+                .filter(paymentType -> paymentType.getId().equals(paymentTypeId))
+                .findFirst();
+    }
+
+    private boolean isPaymentTypeBonded(Restaurant restaurant, Long paymentTypeId) {
+        return findPaymentType(restaurant, paymentTypeId).isEmpty();
     }
 }

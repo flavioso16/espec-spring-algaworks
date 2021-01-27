@@ -3,7 +3,9 @@ package com.algaworks.algafood.domain.model;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,7 +71,7 @@ public class Restaurant {
 	@JoinTable(name = "tb_restaurant_payment_type",
 			joinColumns = @JoinColumn(name = "restaurant_id"),
 			inverseJoinColumns = @JoinColumn(name = "payment_type_id"))
-	private List<PaymentType> paymentTypes = new ArrayList<>();
+	private Set<PaymentType> paymentTypes = new HashSet<>();
 	
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
@@ -82,6 +84,14 @@ public class Restaurant {
 
 	public void inactivate() {
 		this.active = Boolean.FALSE;
+	}
+
+	public boolean bindPaymentType(PaymentType paymentType) {
+		return getPaymentTypes().add(paymentType);
+	}
+
+	public boolean unbindPaymentType(PaymentType paymentType) {
+		return getPaymentTypes().remove(paymentType);
 	}
 
 }

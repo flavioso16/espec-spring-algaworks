@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.api.mapper.PaymentTypeMapper;
 import com.algaworks.algafood.api.mapper.RestaurantMapper;
+import com.algaworks.algafood.domain.dto.PaymentTypeDTO;
 import com.algaworks.algafood.domain.dto.RestaurantDTO;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.service.RestaurantService;
@@ -33,6 +36,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantMapper mapper;
+
+    @Autowired
+    private PaymentTypeMapper paymentTypeMapper;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -77,6 +83,24 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inactivate(@PathVariable Long restaurantId) {
         restaurantService.inactivate(restaurantId);
+    }
+
+    @GetMapping("/{restaurantId}/payment_types")
+    public List<PaymentTypeDTO> listPaymentTypes(@PathVariable Long restaurantId) {
+        final Restaurant restaurant = restaurantService.findOrFail(restaurantId);
+        return paymentTypeMapper.toListDto(restaurant.getPaymentTypes());
+    }
+
+    @PostMapping("/{restaurantId}/payment_types/{paymentTypeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void bindPaymentType(@PathVariable Long restaurantId, @PathVariable Long paymentTypeId) {
+        restaurantService.bindPaymentType(restaurantId, paymentTypeId);
+    }
+
+    @DeleteMapping("/{restaurantId}/payment_types/{paymentTypeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unbindPaymentType(@PathVariable Long restaurantId, @PathVariable Long paymentTypeId) {
+        restaurantService.unbindPaymentType(restaurantId, paymentTypeId);
     }
 
 }
