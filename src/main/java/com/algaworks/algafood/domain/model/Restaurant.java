@@ -94,4 +94,7 @@ public class Restaurant {
 		return getPaymentTypes().remove(paymentType);
 	}
 
+	public void includeProduct(final Product product) {
+		this.getProducts().add(product);
+	}
 }
