@@ -169,4 +169,16 @@ public class RestaurantService {
             throw new BusinessException(e.getMessage());
         }
     }
+
+    @Transactional
+    public void open(Long restaurantId) {
+        Restaurant restaurante = findOrFail(restaurantId);
+        restaurante.open();
+    }
+
+    @Transactional
+    public void close(Long restaurantId) {
+        Restaurant restaurante = findOrFail(restaurantId);
+        restaurante.close();
+    }
 }

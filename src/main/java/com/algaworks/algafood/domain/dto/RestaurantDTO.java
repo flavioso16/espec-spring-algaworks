@@ -19,4 +19,5 @@ public class RestaurantDTO {
     private KitchenDTO kitchen;
     private Boolean active;
     private AddressDTO address;
+    private Boolean isOpen;
 }

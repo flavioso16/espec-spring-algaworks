@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.dto.GroupDTO;
+import com.algaworks.algafood.domain.dto.PermissionDTO;
 import com.algaworks.algafood.domain.model.Group;
 import com.algaworks.algafood.domain.service.GroupService;
 import com.algaworks.algafood.domain.vo.GroupVO;
@@ -69,6 +70,25 @@ public class GroupController {
         groupService.delete(groupId);
     }
 
-    
+    @GetMapping("/{groupId}/permissions")
+    public List<PermissionDTO> list(@PathVariable Long groupId) {
+        final Group group = groupService.findOrFail(groupId);
+
+        return group.getPermissions().stream()
+                .map(p -> mapper.map(p, PermissionDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{groupId}/permissions/{permissionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void bindPaymentType(@PathVariable Long groupId, @PathVariable Long permissionId) {
+        groupService.bindPermission(groupId, permissionId);
+    }
+
+    @DeleteMapping("/{groupId}/permissions/{permissionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unbindPaymentType(@PathVariable Long groupId, @PathVariable Long permissionId) {
+        groupService.unbindPermission(groupId, permissionId);
+    }
 
 }

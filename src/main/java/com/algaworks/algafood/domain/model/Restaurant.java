@@ -78,6 +78,8 @@ public class Restaurant {
 
 	private Boolean active = Boolean.TRUE;
 
+	private Boolean isOpen = Boolean.TRUE;
+
 	public void activate() {
 		this.active = Boolean.TRUE;
 	}
@@ -96,5 +98,13 @@ public class Restaurant {
 
 	public void includeProduct(final Product product) {
 		this.getProducts().add(product);
+	}
+
+	public void open() {
+		this.isOpen = true;
+	}
+
+	public void close() {
+		this.isOpen = false;
 	}
 }

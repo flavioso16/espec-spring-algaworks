@@ -44,12 +44,12 @@ insert into tb_city (id, name, state_id) values (5, 'Fortaleza', 3);
 
 insert into tb_address (id, postal_code, address, number, district, city_id) values (1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro', 1);
 
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date, address_id) values (1, 'Thai Gourmet', 10, 1, true, utc_timestamp, utc_timestamp, 1);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (2, 'Thai Delivery', 9.50, 1, true, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (3, 'Tuk Tuk Comida Indiana', 15, 2, true, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (4, 'Java Steakhouse', 12, 3, true, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (5, 'Lanchonete do Tio Sam', 11, 4, true, utc_timestamp, utc_timestamp);
-insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, creation_date, update_date) values (6, 'Bar da Maria', 6, 4, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, is_open, creation_date, update_date, address_id) values (1, 'Thai Gourmet', 10, 1, true, true, utc_timestamp, utc_timestamp, 1);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, is_open, creation_date, update_date) values (2, 'Thai Delivery', 9.50, 1, true, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, is_open, creation_date, update_date) values (3, 'Tuk Tuk Comida Indiana', 15, 2, true, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, is_open, creation_date, update_date) values (4, 'Java Steakhouse', 12, 3, true, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, is_open, creation_date, update_date) values (5, 'Lanchonete do Tio Sam', 11, 4, true, true, utc_timestamp, utc_timestamp);
+insert into tb_restaurant (id, name, shipping_fee, kitchen_id, active, is_open,  creation_date, update_date) values (6, 'Bar da Maria', 6, 4, true, true, utc_timestamp, utc_timestamp);
 
 insert into tb_payment_type (id, description) values (1, 'Cartão de crédito');
 insert into tb_payment_type (id, description) values (2, 'Cartão de débito');
@@ -71,6 +71,8 @@ insert into tb_produt (name, description, price, active, restaurant_id) values (
 insert into tb_produt (name, description, price, active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
 insert into tb_group (name) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
+
+insert into tb_group_permission (group_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
 
 insert into tb_user (id, name, email, password, creation_date) values
 (1, 'User One', 'user1@algafood.com', 'user1', utc_timestamp),

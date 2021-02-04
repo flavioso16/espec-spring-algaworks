@@ -136,4 +136,16 @@ public class RestaurantController {
         return modelMapper.map(restaurantService.updateProduct(restaurantId, productId, product), ProductDTO.class);
     }
 
+    @PutMapping("/{restaurantId}/open")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void open(@PathVariable Long restaurantId) {
+        restaurantService.open(restaurantId);
+    }
+
+    @PutMapping("/{restaurantId}/close")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void close(@PathVariable Long restaurantId) {
+        restaurantService.close(restaurantId);
+    }
+
 }
