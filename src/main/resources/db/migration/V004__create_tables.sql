@@ -72,8 +72,8 @@ create table tb_user (
 
 create table tb_user_group (
 	user_id bigint not null,
-	grup_id bigint not null,
-	primary key (user_id, grup_id)
+	group_id bigint not null,
+	primary key (user_id, group_id)
 ) engine=InnoDB default charset=utf8;
 
 alter table tb_group_permission add constraint fk_tb_group_permission_tb_permission
@@ -98,7 +98,7 @@ alter table tb_restaurant_payment_type add constraint fk_tb_restaurant_tb_paymen
 foreign key (restaurant_id) references tb_restaurant (id);
 
 alter table tb_user_group add constraint fk_tb_user_group_tb_group
-foreign key (grup_id) references tb_group (id);
+foreign key (group_id) references tb_group (id);
 
 alter table tb_user_group add constraint fk_tb_user_group_tb_user
 foreign key (user_id) references tb_user (id);

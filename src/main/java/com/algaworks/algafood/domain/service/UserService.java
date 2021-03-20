@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.service;
 import static com.algaworks.algafood.core.constants.MessageConstants.MSG_ENTITY_IN_USE;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityInUseException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
+import com.algaworks.algafood.domain.model.Group;
 import com.algaworks.algafood.domain.model.PaymentType;
 import com.algaworks.algafood.domain.model.User;
 import com.algaworks.algafood.domain.repository.UserRepository;
@@ -31,6 +33,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GroupService groupService;
 
     @Autowired
     private ModelMapper mapper;
@@ -86,6 +91,32 @@ public class UserService {
 
     public List<User> list() {
         return userRepository.findAll();
+    }
+
+    @Transactional
+    public void bindGroup(final Long userId, final Long groupId) {
+        User user = findOrFail(userId);
+        if(isGroupBounded(user, groupId)) {
+            Group group = groupService.findOrFail(groupId);
+            user.bindGroup(group);
+        }
+    }
+
+    @Transactional
+    public void unbindGroup(final Long userId, final Long groupId) {
+        User user = findOrFail(userId);
+        findGroup(user, groupId)
+                .ifPresent(user::unbindGroup);
+    }
+
+    private Optional<Group> findGroup(User user, Long groupId) {
+        return user.getGroups().stream()
+                .filter(group -> group.getId().equals(groupId))
+                .findFirst();
+    }
+
+    private boolean isGroupBounded(User user, Long groupId) {
+        return findGroup(user, groupId).isEmpty();
     }
 
 }

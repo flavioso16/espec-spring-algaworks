@@ -79,3 +79,5 @@ insert into tb_user (id, name, email, password, creation_date) values
 (2, 'User Two', 'user2@algafood.com', 'user2', utc_timestamp),
 (3, 'User Three', 'user3@algafood.com', 'user3', utc_timestamp),
 (4, 'User Four', 'user4@algafood.com', 'user4', utc_timestamp);
+
+insert into tb_user_group(user_id, group_id) values (1, 1), (1, 2), (2, 2);

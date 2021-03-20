@@ -1,8 +1,8 @@
 package com.algaworks.algafood.domain.model;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,11 +45,19 @@ public class User {
 	
 	@ManyToMany
 	@JoinTable(name = "tb_user_group", joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "grup_id"))
-	private List<Group> groups = new ArrayList<>();
+			inverseJoinColumns = @JoinColumn(name = "group_id"))
+	private Set<Group> groups = new HashSet<>();
 
 	public Boolean doesPasswordNotMatch(final String password) {
 		return !this.password.equals(password);
+	}
+
+	public boolean unbindGroup(Group group) {
+		return getGroups().remove(group);
+	}
+
+	public boolean bindGroup(Group group) {
+		return getGroups().add(group);
 	}
 	
 }

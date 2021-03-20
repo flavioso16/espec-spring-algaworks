@@ -8,5 +8,9 @@ package com.algaworks.algafood;
  */
 public class Teste {
 
+    public static void main(String[] args) {
+        System.out.println(Long.getLong("-0.9"));
+    }
+
 
 }
