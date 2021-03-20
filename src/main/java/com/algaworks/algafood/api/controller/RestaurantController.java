@@ -96,6 +96,18 @@ public class RestaurantController {
         restaurantService.inactivate(restaurantId);
     }
 
+    @PutMapping("/activate-multi")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activateMultiple(@RequestBody List<Long> restaurantIds) {
+        restaurantService.activate(restaurantIds);
+    }
+
+    @PutMapping("/inactivate-multi")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactivateMultiple(@RequestBody List<Long> restaurantIds) {
+        restaurantService.inactivate(restaurantIds);
+    }
+
     @GetMapping("/{restaurantId}/payment_types")
     public List<PaymentTypeDTO> listPaymentTypes(@PathVariable Long restaurantId) {
         final Restaurant restaurant = restaurantService.findOrFail(restaurantId);

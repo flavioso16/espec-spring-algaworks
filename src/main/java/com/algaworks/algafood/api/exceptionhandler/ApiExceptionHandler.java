@@ -234,7 +234,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<?> handleNegocioException(
+    public ResponseEntity<?> handleBusinessException(
             BusinessException e, WebRequest webRequest) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;

@@ -116,9 +116,27 @@ public class RestaurantService {
     }
 
     @Transactional
+    public void activate(final List<Long> restaurantIds) {
+        try {
+            restaurantIds.forEach(this::activate);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @Transactional
     public void inactivate(final Long restaurantId) {
         Restaurant restaurant = findOrFail(restaurantId);
         restaurant.inactivate();
+    }
+
+    @Transactional
+    public void inactivate(final List<Long> restaurantIds) {
+        try {
+            restaurantIds.forEach(this::inactivate);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 
     @Transactional
