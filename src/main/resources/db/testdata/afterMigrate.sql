@@ -13,6 +13,7 @@ delete from tb_restaurant;
 delete from tb_restaurant_payment_type;
 delete from tb_user;
 delete from tb_user_group;
+delete from tb_restaurant_user_responsible;
 
 set foreign_key_checks = 1;
 
@@ -81,3 +82,5 @@ insert into tb_user (id, name, email, password, creation_date) values
 (4, 'User Four', 'user4@algafood.com', 'user4', utc_timestamp);
 
 insert into tb_user_group(user_id, group_id) values (1, 1), (1, 2), (2, 2);
+
+insert into tb_restaurant_user_responsible(user_id, restaurant_id) values (1, 1), (1, 2), (2, 2);

@@ -24,6 +24,7 @@ import com.algaworks.algafood.api.mapper.RestaurantMapper;
 import com.algaworks.algafood.domain.dto.PaymentTypeDTO;
 import com.algaworks.algafood.domain.dto.ProductDTO;
 import com.algaworks.algafood.domain.dto.RestaurantDTO;
+import com.algaworks.algafood.domain.dto.UserDTO;
 import com.algaworks.algafood.domain.model.Product;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.service.ProductService;
@@ -43,9 +44,11 @@ public class RestaurantController {
     private ProductService productService;
 
     @Autowired
+    // TODO Alterar para default mapper
     private RestaurantMapper mapper;
 
     @Autowired
+    // TODO Alterar para default mapper
     private PaymentTypeMapper paymentTypeMapper;
 
     @Autowired
@@ -146,6 +149,26 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void close(@PathVariable Long restaurantId) {
         restaurantService.close(restaurantId);
+    }
+
+    @GetMapping("/{restaurantId}/responsibles")
+    public List<UserDTO> listResponsibles(@PathVariable Long restaurantId) {
+        final Restaurant restaurant = restaurantService.findOrFail(restaurantId);
+        return restaurant.getResponsibles().stream()
+                .map(responsible -> modelMapper.map(responsible, UserDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{restaurantId}/responsibles/{responsibleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void bindResponsible(@PathVariable Long restaurantId, @PathVariable Long responsibleId) {
+        restaurantService.bindResponsible(restaurantId, responsibleId);
+    }
+
+    @DeleteMapping("/{restaurantId}/responsibles/{responsibleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unbindResponsible(@PathVariable Long restaurantId, @PathVariable Long responsibleId) {
+        restaurantService.unbindResponsible(restaurantId, responsibleId);
     }
 
 }

@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -80,6 +81,12 @@ public class Restaurant {
 
 	private Boolean isOpen = Boolean.TRUE;
 
+	@ManyToMany
+	@JoinTable(name = "tb_restaurant_user_responsible",
+			joinColumns = @JoinColumn(name = "restaurant_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private Set<User> responsibles = new HashSet<>();
+
 	public void activate() {
 		this.active = Boolean.TRUE;
 	}
@@ -92,8 +99,19 @@ public class Restaurant {
 		return getPaymentTypes().add(paymentType);
 	}
 
-	public boolean unbindPaymentType(PaymentType paymentType) {
-		return getPaymentTypes().remove(paymentType);
+	public void unbindPaymentType(Long paymentTypeId) {
+		findPaymentType(paymentTypeId)
+				.ifPresent(getPaymentTypes()::remove);
+	}
+
+	private Optional<PaymentType> findPaymentType(Long paymentTypeId) {
+		return getPaymentTypes().stream()
+				.filter(paymentType -> paymentType.getId().equals(paymentTypeId))
+				.findFirst();
+	}
+
+	public boolean isPaymentTypeBonded(Long paymentTypeId) {
+		return findPaymentType(paymentTypeId).isEmpty();
 	}
 
 	public void includeProduct(final Product product) {
@@ -106,5 +124,24 @@ public class Restaurant {
 
 	public void close() {
 		this.isOpen = false;
+	}
+
+	public boolean bindResponsible(User responsible) {
+		return getResponsibles().add(responsible);
+	}
+
+	public void unbindResponsible(Long responsibleId) {
+		findResponsible(responsibleId)
+				.ifPresent(getResponsibles()::remove);
+	}
+
+	private Optional<User> findResponsible(Long responsibleId) {
+		return getResponsibles().stream()
+				.filter(responsible -> responsible.getId().equals(responsibleId))
+				.findFirst();
+	}
+
+	public boolean isResponsibleBounded(Long responsibleId) {
+		return findResponsible(responsibleId).isEmpty();
 	}
 }

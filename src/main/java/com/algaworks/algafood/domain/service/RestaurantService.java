@@ -1,7 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,7 @@ import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.model.PaymentType;
 import com.algaworks.algafood.domain.model.Product;
 import com.algaworks.algafood.domain.model.Restaurant;
+import com.algaworks.algafood.domain.model.User;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
 import com.algaworks.algafood.domain.vo.RestaurantVO;
 import com.algaworks.algafood.utils.ModelMergeUtil;
@@ -48,6 +48,9 @@ public class RestaurantService {
 
     @Autowired
     private ModelMergeUtil modelMergeUtil;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
@@ -121,7 +124,7 @@ public class RestaurantService {
     @Transactional
     public void bindPaymentType(final Long restaurantId, final Long paymentTypeId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        if(isPaymentTypeBonded(restaurant, paymentTypeId)) {
+        if(restaurant.isPaymentTypeBonded(paymentTypeId)) {
             PaymentType paymentType = paymentTypeService.findOrFail(paymentTypeId);
             restaurant.bindPaymentType(paymentType);
         }
@@ -130,18 +133,7 @@ public class RestaurantService {
     @Transactional
     public void unbindPaymentType(final Long restaurantId, final Long paymentTypeId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        findPaymentType(restaurant, paymentTypeId)
-                .ifPresent(restaurant::unbindPaymentType);
-    }
-
-    private Optional<PaymentType> findPaymentType(Restaurant restaurant, Long paymentTypeId) {
-        return restaurant.getPaymentTypes().stream()
-                .filter(paymentType -> paymentType.getId().equals(paymentTypeId))
-                .findFirst();
-    }
-
-    private boolean isPaymentTypeBonded(Restaurant restaurant, Long paymentTypeId) {
-        return findPaymentType(restaurant, paymentTypeId).isEmpty();
+        restaurant.unbindPaymentType(paymentTypeId);
     }
 
     @Transactional
@@ -180,5 +172,20 @@ public class RestaurantService {
     public void close(Long restaurantId) {
         Restaurant restaurante = findOrFail(restaurantId);
         restaurante.close();
+    }
+
+    @Transactional
+    public void bindResponsible(final Long restaurantId, final Long responsibleId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        if(restaurant.isResponsibleBounded(responsibleId)) {
+            User responsible = userService.findOrFail(responsibleId);
+            restaurant.bindResponsible(responsible);
+        }
+    }
+
+    @Transactional
+    public void unbindResponsible(final Long restaurantId, final Long responsibleId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        restaurant.unbindResponsible(responsibleId);
     }
 }
