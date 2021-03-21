@@ -29,6 +29,8 @@ alter table tb_produt auto_increment = 1;
 alter table tb_address auto_increment = 1;
 alter table tb_restaurant auto_increment = 1;
 alter table tb_user auto_increment = 1;
+alter table tb_order auto_increment = 1;
+alter table tb_order_item auto_increment = 1;
 
 insert into tb_kitchen (id, name) values
 (1, 'Tailandesa'),

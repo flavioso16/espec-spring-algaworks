@@ -23,5 +23,5 @@ public class PaymentType {
 	
 	@Column(nullable = false)
 	private String description;
-	
+
 }

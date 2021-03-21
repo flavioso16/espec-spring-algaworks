@@ -171,7 +171,7 @@ public class RestaurantService {
     @Transactional
     public Product updateProduct(final Long restaurantId, final Long productId, final Product productParam) {
         try {
-            Product product = productService.findByIdAndRestaurantId(productId, restaurantId);
+            Product product = productService.findOrFail(productId, restaurantId);
             modelMergeUtil.merge(productParam, product);
             return product;
 

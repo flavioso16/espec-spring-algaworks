@@ -19,6 +19,7 @@ import com.algaworks.algafood.domain.repository.ProductRepository;
 public class ProductService {
 
     private static final String ERROR_MSG_NOT_FOUND = "Resource type Product of ID %d not found.";
+    
     @Autowired
     private ProductRepository productRepository;
 
@@ -34,7 +35,7 @@ public class ProductService {
         return productRepository.findOrFail(productId);
     }
 
-    public Product findByIdAndRestaurantId(final Long productId, final Long restaurantId) {
+    public Product findOrFail(final Long productId, final Long restaurantId) {
         return productRepository.findByIdAndRestaurantId(productId, restaurantId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MSG_NOT_FOUND, productId)));
     }

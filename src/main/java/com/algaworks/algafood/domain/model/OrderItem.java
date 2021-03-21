@@ -40,4 +40,9 @@ public class OrderItem {
 	@JoinColumn(nullable = false)
 	private Product product;
 
+	public void calculateValues() {
+		this.unitPrice = product.getPrice();
+		this.totalPrice = this.unitPrice.multiply(BigDecimal.valueOf(this.amount));
+	}
+
 }

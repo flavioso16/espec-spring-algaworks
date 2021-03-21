@@ -71,7 +71,7 @@ public class Order {
 	@OneToMany(mappedBy = "order")
 	private List<OrderItem> items = new ArrayList<>();
 
-	public void calculateTotalValue() {
+	public void calculateValues() {
 		this.subtotal = getItems().stream()
 				.map(OrderItem::getTotalPrice)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -85,5 +85,4 @@ public class Order {
 	public void addItemsToOrder() {
 		getItems().forEach(item -> item.setOrder(this));
 	}
-
 }

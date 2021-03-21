@@ -136,7 +136,7 @@ public class RestaurantController {
 
     @GetMapping("/{restaurantId}/products/{productId}")
     public ProductDTO getProduct(@PathVariable Long restaurantId, @PathVariable Long productId) {
-        return modelMapper.map(productService.findByIdAndRestaurantId(productId, restaurantId), ProductDTO.class);
+        return modelMapper.map(productService.findOrFail(productId, restaurantId), ProductDTO.class);
     }
 
     @PostMapping("/{restaurantId}/products")

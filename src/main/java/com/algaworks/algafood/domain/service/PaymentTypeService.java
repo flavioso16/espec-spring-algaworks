@@ -26,6 +26,9 @@ import com.algaworks.algafood.domain.vo.PaymentTypeVO;
 @Service
 public class PaymentTypeService {
 
+    private static final String ERROR_MSG_NOT_FOUND_RESTAURANT =
+            "Resource type PaymentType of ID %d not found to Restaurant of ID %d.";
+
     @Autowired
     private PaymentTypeRepository paymentTypeRepository;
 
