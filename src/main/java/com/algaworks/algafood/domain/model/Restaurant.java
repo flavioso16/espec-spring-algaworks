@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,7 +57,7 @@ public class Restaurant {
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	private Kitchen kitchen;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
 	

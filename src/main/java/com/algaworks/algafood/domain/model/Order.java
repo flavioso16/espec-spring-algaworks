@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,7 +40,7 @@ public class Order {
 
 	private BigDecimal totalValue;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
 
@@ -55,7 +56,7 @@ public class Order {
 
 	private OffsetDateTime deliveryDate;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private PaymentType paymentType;
 	
