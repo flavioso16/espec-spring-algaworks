@@ -44,7 +44,7 @@ public class Order {
 	private Address address;
 
 	@Enumerated(EnumType.STRING)
-	private OrderStatus status;
+	private OrderStatus status = OrderStatus.CREATED;
 	
 	@CreationTimestamp
 	private OffsetDateTime creationDate;
@@ -69,5 +69,20 @@ public class Order {
 	
 	@OneToMany(mappedBy = "order")
 	private List<OrderItem> items = new ArrayList<>();
+
+	public void calculateTotalValue() {
+		this.subtotal = getItems().stream()
+				.map(OrderItem::getTotalPrice)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		this.totalValue = this.subtotal.add(this.shippingFee);
+	}
+
+	public void defineFrete() {
+		setShippingFee(getRestaurant().getShippingFee());
+	}
+
+	public void addItemsToOrder() {
+		getItems().forEach(item -> item.setOrder(this));
+	}
 
 }

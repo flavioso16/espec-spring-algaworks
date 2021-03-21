@@ -24,3 +24,8 @@ Rodando o projeto
 ```
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 ./mvnw spring-boot:run
 ```
+
+Rodando o flyway
+```
+./mvnw flyway:repair -Dflyway.configFiles=src/main/resources/flyway.properties
+```

@@ -24,15 +24,15 @@ create table tb_order (
 create table tb_order_item (
   id bigint not null auto_increment,
   amount smallint(6) not null,
-  price_unit decimal(10,2) not null,
+  unit_price decimal(10,2) not null,
   total_price decimal(10,2) not null,
   description varchar(255) null,
   order_id bigint not null,
-  produt_id bigint not null,
+  product_id bigint not null,
   
   primary key (id),
-  unique key uk_tb_order_item_tb_produt (order_id, produt_id),
+  unique key uk_tb_order_item_tb_produt (order_id, product_id),
 
   constraint fk_tb_order_item_tb_order foreign key (order_id) references tb_order (id),
-  constraint fk_tb_order_item_tb_produt foreign key (produt_id) references tb_produt (id)
+  constraint fk_tb_order_item_tb_produt foreign key (product_id) references tb_produt (id)
 ) engine=InnoDB default charset=utf8;

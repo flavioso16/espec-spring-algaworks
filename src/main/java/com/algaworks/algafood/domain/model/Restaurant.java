@@ -110,6 +110,14 @@ public class Restaurant {
 				.findFirst();
 	}
 
+	public boolean acceptPaymentMethod(PaymentType paymentType) {
+		return getPaymentTypes().contains(paymentType);
+	}
+
+	public boolean notAcceptPaymentMethod(PaymentType paymentType) {
+		return !acceptPaymentMethod(paymentType);
+	}
+
 	public boolean isPaymentTypeBonded(Long paymentTypeId) {
 		return findPaymentType(paymentTypeId).isEmpty();
 	}
