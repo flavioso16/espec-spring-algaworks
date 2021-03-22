@@ -98,7 +98,7 @@ public class OrderService {
 					order.getStatus().getDescription(), OrderStatus.CANCELED.getDescription()));
 		}
 		order.setStatus(OrderStatus.CANCELED);
-		order.setConfirmationDate(OffsetDateTime.now());
+		order.setCanceledDate(OffsetDateTime.now());
 	}
 
 	@Transactional
@@ -109,7 +109,7 @@ public class OrderService {
 					order.getStatus().getDescription(), OrderStatus.DELIVERED.getDescription()));
 		}
 		order.setStatus(OrderStatus.DELIVERED);
-		order.setConfirmationDate(OffsetDateTime.now());
+		order.setDeliveryDate(OffsetDateTime.now());
 	}
 	
 }
