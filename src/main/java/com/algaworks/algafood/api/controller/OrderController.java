@@ -58,4 +58,16 @@ public class OrderController {
         orderService.confirm(orderId);
     }
 
+    @PutMapping("/{orderId}/cancel")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancel(@PathVariable Long orderId) {
+        orderService.cancel(orderId);
+    }
+
+    @PutMapping("/{orderId}/delivery")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delivery(@PathVariable Long orderId) {
+        orderService.delivery(orderId);
+    }
+
 }

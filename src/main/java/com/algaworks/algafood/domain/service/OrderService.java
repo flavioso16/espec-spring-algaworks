@@ -89,5 +89,27 @@ public class OrderService {
 		order.setStatus(OrderStatus.CONFIRMED);
 		order.setConfirmationDate(OffsetDateTime.now());
 	}
+
+	@Transactional
+	public void cancel(final Long orderId) {
+		Order order = findOrFail(orderId);
+		if(!OrderStatus.CREATED.equals(order.getStatus())) {
+			throw new BusinessException(String.format("Status of order %d can not set from %s to %s", order.getId(),
+					order.getStatus().getDescription(), OrderStatus.CANCELED.getDescription()));
+		}
+		order.setStatus(OrderStatus.CANCELED);
+		order.setConfirmationDate(OffsetDateTime.now());
+	}
+
+	@Transactional
+	public void delivery(final Long orderId) {
+		Order order = findOrFail(orderId);
+		if(!OrderStatus.CONFIRMED.equals(order.getStatus())) {
+			throw new BusinessException(String.format("Status of order %d can not set from %s to %s", order.getId(),
+					order.getStatus().getDescription(), OrderStatus.DELIVERED.getDescription()));
+		}
+		order.setStatus(OrderStatus.DELIVERED);
+		order.setConfirmationDate(OffsetDateTime.now());
+	}
 	
 }
