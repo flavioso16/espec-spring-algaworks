@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class OrderResumeDTO {
-	private Long id;
+	private String code;
 	private BigDecimal subtotal;
 	private BigDecimal shippingFee;
 	private BigDecimal totalValue;

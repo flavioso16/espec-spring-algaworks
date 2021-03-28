@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -35,6 +37,8 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	private String code;
 	
 	private BigDecimal subtotal;
 
@@ -105,10 +109,15 @@ public class Order {
 
 	private void setStatus(OrderStatus newStatus) {
 		if(getStatus().canNotUpdateTo(newStatus)) {
-			throw new BusinessException(String.format("Status of order %d can not set from %s to %s", getId(),
+			throw new BusinessException(String.format("Status of order with code %s can not set from %s to %s", getCode(),
 					getStatus().getDescription(), newStatus.getDescription()));
 		}
 		this.status = newStatus;
+	}
+
+	@PrePersist
+	private void generateCode() {
+		setCode(UUID.randomUUID().toString());
 	}
 
 }

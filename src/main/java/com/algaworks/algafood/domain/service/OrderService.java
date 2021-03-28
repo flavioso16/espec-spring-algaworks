@@ -78,21 +78,27 @@ public class OrderService {
 	}
 
 	@Transactional
-	public void confirm(final Long orderId) {
-		Order order = findOrFail(orderId);
+	public void confirm(final String orderCode) {
+		Order order = findOrFail(orderCode);
 		order.confirm();
 	}
 
 	@Transactional
-	public void cancel(final Long orderId) {
-		Order order = findOrFail(orderId);
+	public void cancel(final String orderCode) {
+		Order order = findOrFail(orderCode);
 		order.cancel();
 	}
 
 	@Transactional
-	public void delivery(final Long orderId) {
-		Order order = findOrFail(orderId);
+	public void delivery(final String orderCode) {
+		Order order = findOrFail(orderCode);
 		order.delivery();
+	}
+
+	public Order findOrFail(String orderCode) {
+		return orderRepository.findByCode(orderCode)
+				.orElseThrow(() -> new EntityNotFoundException(
+						String.format("Order with code %s not found.", orderCode)));
 	}
 	
 }

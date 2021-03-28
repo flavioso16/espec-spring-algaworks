@@ -40,9 +40,9 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{orderId}")
-    public OrderDTO find(@PathVariable Long orderId) {
-        return mapper.map(orderService.findOrFail(orderId), OrderDTO.class);
+    @GetMapping("/{orderCode}")
+    public OrderDTO find(@PathVariable String orderCode) {
+        return mapper.map(orderService.findOrFail(orderCode), OrderDTO.class);
     }
 
     @PostMapping
@@ -52,22 +52,22 @@ public class OrderController {
         return mapper.map(orderService.save(entity), OrderDTO.class);
     }
 
-    @PutMapping("/{orderId}/confirm")
+    @PutMapping("/{orderCode}/confirm")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void confirm(@PathVariable Long orderId) {
-        orderService.confirm(orderId);
+    public void confirm(@PathVariable String orderCode) {
+        orderService.confirm(orderCode);
     }
 
-    @PutMapping("/{orderId}/cancel")
+    @PutMapping("/{orderCode}/cancel")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancel(@PathVariable Long orderId) {
-        orderService.cancel(orderId);
+    public void cancel(@PathVariable String orderCode) {
+        orderService.cancel(orderCode);
     }
 
-    @PutMapping("/{orderId}/delivery")
+    @PutMapping("/{orderCode}/delivery")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delivery(@PathVariable Long orderId) {
-        orderService.delivery(orderId);
+    public void delivery(@PathVariable String orderCode) {
+        orderService.delivery(orderCode);
     }
 
 }

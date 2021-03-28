@@ -27,11 +27,13 @@ import com.algaworks.algafood.domain.dto.RestaurantDTO;
 import com.algaworks.algafood.domain.dto.UserDTO;
 import com.algaworks.algafood.domain.model.Product;
 import com.algaworks.algafood.domain.model.Restaurant;
+import com.algaworks.algafood.domain.model.view.RestaurantView;
 import com.algaworks.algafood.domain.service.ProductService;
 import com.algaworks.algafood.domain.service.RestaurantService;
 import com.algaworks.algafood.domain.vo.ProductVO;
 import com.algaworks.algafood.domain.vo.RestaurantPartialVO;
 import com.algaworks.algafood.domain.vo.RestaurantVO;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping(value = "/restaurants")
@@ -54,10 +56,41 @@ public class RestaurantController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @JsonView(RestaurantView.Resume.class)
     @GetMapping
     public List<RestaurantDTO> list() {
         return mapper.toListDto(restaurantService.list());
     }
+
+    @JsonView(RestaurantView.OnlyName.class)
+    @GetMapping(params="projection=only-name")
+    public List<RestaurantDTO> listOnlyName() {
+        return list();
+    }
+
+//    @GetMapping
+//    public MappingJacksonValue list(@RequestParam(required = false) String projection) {
+//        final List<Restaurant> restaurants = restaurantService.list();
+//        final List<RestaurantDTO> restaurantDTOS = mapper.toListDto(restaurants);
+//
+//        MappingJacksonValue restaurantsWrapper = new MappingJacksonValue(restaurantDTOS);
+//        restaurantsWrapper.setSerializationView(RestaurantView.Resume.class);
+//
+//        if("only-name".equals(projection)) {
+//            restaurantsWrapper.setSerializationView(RestaurantView.OnlyName.class);
+//        } else if("complete".equals(projection)) {
+//            restaurantsWrapper.setSerializationView(null);
+//        }
+//        return restaurantsWrapper;
+//    }
+
+//    @JsonView(RestaurantView.Resume.class)
+//    @GetMapping(params="projection=resume")
+//    public List<RestaurantDTO> listResumed() {
+//        return list();
+//    }
+//
+
 
     @GetMapping("/{restaurantId}")
     public RestaurantDTO find(@PathVariable Long restaurantId) {

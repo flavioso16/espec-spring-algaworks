@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,5 @@ public interface OrderRepository extends CustomJpaRepository<Order, Long> {
     @Query("from Order o join fetch o.client join fetch o.restaurant r join fetch r.kitchen")
     List<Order> findAll();
 
+    Optional<Order> findByCode(String code);
 }
