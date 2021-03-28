@@ -56,7 +56,6 @@ public class RestaurantController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @JsonView(RestaurantView.Resume.class)
     @GetMapping
     public List<RestaurantDTO> list() {
         return mapper.toListDto(restaurantService.list());
@@ -82,6 +81,12 @@ public class RestaurantController {
 //            restaurantsWrapper.setSerializationView(null);
 //        }
 //        return restaurantsWrapper;
+//    }
+
+//    @JsonView(RestaurantView.Resume.class)
+//    @GetMapping
+//    public List<RestaurantDTO> list() {
+//        return mapper.toListDto(restaurantService.list());
 //    }
 
 //    @JsonView(RestaurantView.Resume.class)

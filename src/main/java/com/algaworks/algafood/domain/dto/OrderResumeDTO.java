@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.model.OrderStatus;
 
 import lombok.Data;
 
+//@JsonFilter("orderFilter")
 @Data
 public class OrderResumeDTO {
 	private String code;

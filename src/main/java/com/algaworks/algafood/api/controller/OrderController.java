@@ -40,6 +40,35 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
+//    @GetMapping
+//    public MappingJacksonValue list(@RequestParam(required = false) String fields) {
+//        final List<OrderResumeDTO> orders = orderService.list().stream()
+//                .map(o -> mapper.map(o, OrderResumeDTO.class))
+//                .collect(Collectors.toList());
+//        MappingJacksonValue ordersWrapper = new MappingJacksonValue(orders);
+//
+//        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+//
+//        if(StringUtils.isNotBlank(fields)) {
+//            filterProvider.addFilter("orderFilter",
+//                    SimpleBeanPropertyFilter.filterOutAllExcept(fields.split(",")));
+//        } else {
+//            filterProvider.addFilter("orderFilter",
+//                    SimpleBeanPropertyFilter.serializeAll());
+//        }
+//
+//        ordersWrapper.setFilters(filterProvider);
+//
+//        return ordersWrapper;
+//    }
+
+//    @GetMapping
+//    public List<OrderResumeDTO> list() {
+//        return orderService.list().stream()
+//                .map(o -> mapper.map(o, OrderResumeDTO.class))
+//                .collect(Collectors.toList());
+//    }
+
     @GetMapping("/{orderCode}")
     public OrderDTO find(@PathVariable String orderCode) {
         return mapper.map(orderService.findOrFail(orderCode), OrderDTO.class);
