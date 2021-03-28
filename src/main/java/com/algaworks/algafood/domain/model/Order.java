@@ -20,6 +20,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.algaworks.algafood.domain.exception.BusinessException;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -85,4 +87,28 @@ public class Order {
 	public void addItemsToOrder() {
 		getItems().forEach(item -> item.setOrder(this));
 	}
+
+	public void confirm() {
+		setStatus(OrderStatus.CONFIRMED);
+		setConfirmationDate(OffsetDateTime.now());
+	}
+
+	public void cancel() {
+		setStatus(OrderStatus.CANCELED);
+		setCanceledDate(OffsetDateTime.now());
+	}
+
+	public void delivery() {
+		setStatus(OrderStatus.DELIVERED);
+		setDeliveryDate(OffsetDateTime.now());
+	}
+
+	private void setStatus(OrderStatus newStatus) {
+		if(getStatus().canNotUpdateTo(newStatus)) {
+			throw new BusinessException(String.format("Status of order %d can not set from %s to %s", getId(),
+					getStatus().getDescription(), newStatus.getDescription()));
+		}
+		this.status = newStatus;
+	}
+
 }

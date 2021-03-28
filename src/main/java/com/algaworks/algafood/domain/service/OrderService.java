@@ -1,6 +1,5 @@
 package com.algaworks.algafood.domain.service;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Order;
-import com.algaworks.algafood.domain.model.OrderStatus;
 import com.algaworks.algafood.domain.model.PaymentType;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.OrderRepository;
@@ -82,34 +80,19 @@ public class OrderService {
 	@Transactional
 	public void confirm(final Long orderId) {
 		Order order = findOrFail(orderId);
-		if(!OrderStatus.CREATED.equals(order.getStatus())) {
-			throw new BusinessException(String.format("Status of order %d can not set from %s to %s", order.getId(),
-					order.getStatus().getDescription(), OrderStatus.CONFIRMED.getDescription()));
-		}
-		order.setStatus(OrderStatus.CONFIRMED);
-		order.setConfirmationDate(OffsetDateTime.now());
+		order.confirm();
 	}
 
 	@Transactional
 	public void cancel(final Long orderId) {
 		Order order = findOrFail(orderId);
-		if(!OrderStatus.CREATED.equals(order.getStatus())) {
-			throw new BusinessException(String.format("Status of order %d can not set from %s to %s", order.getId(),
-					order.getStatus().getDescription(), OrderStatus.CANCELED.getDescription()));
-		}
-		order.setStatus(OrderStatus.CANCELED);
-		order.setCanceledDate(OffsetDateTime.now());
+		order.cancel();
 	}
 
 	@Transactional
 	public void delivery(final Long orderId) {
 		Order order = findOrFail(orderId);
-		if(!OrderStatus.CONFIRMED.equals(order.getStatus())) {
-			throw new BusinessException(String.format("Status of order %d can not set from %s to %s", order.getId(),
-					order.getStatus().getDescription(), OrderStatus.DELIVERED.getDescription()));
-		}
-		order.setStatus(OrderStatus.DELIVERED);
-		order.setDeliveryDate(OffsetDateTime.now());
+		order.delivery();
 	}
 	
 }
