@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -165,11 +166,17 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurantId}/products")
-    public List<ProductDTO> listProducts(@PathVariable Long restaurantId) {
-        final Restaurant restaurant = restaurantService.findOrFail(restaurantId);
-        return restaurant.getProducts().stream()
-                .map(p -> modelMapper.map(p, ProductDTO.class))
-                .collect(Collectors.toList());
+    public List<ProductDTO> listProducts(@PathVariable Long restaurantId,
+            @RequestParam(required = false) boolean includeInactive) {
+        final List<Product> activesByRestaurant;
+        if(includeInactive) {
+            activesByRestaurant = restaurantService.findProductsByRestaurant(restaurantId);
+        } else {
+            activesByRestaurant = restaurantService.findActiveProductsByRestaurant(restaurantId);
+        }
+        return activesByRestaurant.stream()
+            .map(p -> modelMapper.map(p, ProductDTO.class))
+            .collect(Collectors.toList());
     }
 
     @GetMapping("/{restaurantId}/products/{productId}")

@@ -105,6 +105,14 @@ public class RestaurantService {
         return restaurantRepository.findOrFail(restauranteId);
     }
 
+    public List<Product> findActiveProductsByRestaurant(Long restauranteId) {
+        return productService.findActiveProductsByRestaurant(findOrFail(restauranteId));
+    }
+
+    public List<Product> findProductsByRestaurant(Long restauranteId) {
+        return productService.findProductsByRestaurant(findOrFail(restauranteId));
+    }
+
     public List<Restaurant> list() {
         return restaurantRepository.findAll();
     }

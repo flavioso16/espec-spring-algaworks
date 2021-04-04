@@ -77,7 +77,7 @@ insert into tb_restaurant_payment_type (restaurant_id, payment_type_id) values
 
 insert into tb_produt (name, description, price, active, restaurant_id) values
 ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1),
-('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1),
+('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 0, 1),
 ('Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 2),
 ('Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 3),
 ('Murg Curry', 'Cubos de frango preparados com molho curry e especiarias', 43, 1, 3),

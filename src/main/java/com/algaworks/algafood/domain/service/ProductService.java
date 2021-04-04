@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
 import com.algaworks.algafood.domain.model.Product;
+import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.ProductRepository;
 
 /**
@@ -40,4 +43,11 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MSG_NOT_FOUND, productId)));
     }
 
+    public List<Product> findActiveProductsByRestaurant(final Restaurant restaurant) {
+        return productRepository.findActiveProductsByRestaurant(restaurant);
+    }
+
+    public List<Product> findProductsByRestaurant(final Restaurant restaurant) {
+        return productRepository.findProductsByRestaurant(restaurant);
+    }
 }
