@@ -13,6 +13,8 @@ import com.algaworks.algafood.domain.model.Order;
 import com.algaworks.algafood.domain.model.PaymentType;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.OrderRepository;
+import com.algaworks.algafood.domain.repository.filter.OrderFilter;
+import com.algaworks.algafood.infrastructure.repository.spec.OrderSpecs;
 
 @Service
 public class OrderService {
@@ -39,8 +41,8 @@ public class OrderService {
 		return orderRepository.findOrFail(orderId);
 	}
 
-	public List<Order> list() {
-		return orderRepository.findAll();
+	public List<Order> list(OrderFilter filter) {
+		return orderRepository.findAll(OrderSpecs.withFilter(filter));
 	}
 
 	@Transactional

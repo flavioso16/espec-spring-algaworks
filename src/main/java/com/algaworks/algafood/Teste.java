@@ -1,5 +1,8 @@
 package com.algaworks.algafood;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 /**
  * @author flaoliveira
  * @version : $<br/>
@@ -9,7 +12,8 @@ package com.algaworks.algafood;
 public class Teste {
 
     public static void main(String[] args) {
-        System.out.println(Long.getLong("-0.9"));
+        System.out.println(Duration.of(1, ChronoUnit.MINUTES).toMillis());
+        System.out.println(1000 * 60);
     }
 
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.dto.OrderDTO;
 import com.algaworks.algafood.domain.dto.OrderResumeDTO;
 import com.algaworks.algafood.domain.model.Order;
+import com.algaworks.algafood.domain.repository.filter.OrderFilter;
 import com.algaworks.algafood.domain.service.OrderService;
 import com.algaworks.algafood.domain.vo.OrderVO;
 
@@ -34,8 +35,8 @@ public class OrderController {
     private ModelMapper mapper;
 
     @GetMapping
-    public List<OrderResumeDTO> list() {
-        return orderService.list().stream()
+    public List<OrderResumeDTO> search(OrderFilter orderFilter) {
+        return orderService.list(orderFilter).stream()
                 .map(o -> mapper.map(o, OrderResumeDTO.class))
                 .collect(Collectors.toList());
     }
