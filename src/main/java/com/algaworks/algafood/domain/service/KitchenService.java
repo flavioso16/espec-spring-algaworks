@@ -60,8 +60,8 @@ public class KitchenService {
         return kitchenRepository.findOrFail(kitchenId);
     }
 
-    public Page<Kitchen> list(Pageable pageable) {
-        return kitchenRepository.findAll(pageable);
+    public Page<Kitchen> list(Pageable page) {
+        return kitchenRepository.findAll(page);
     }
 
 

@@ -7,6 +7,9 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +38,11 @@ public class OrderController {
     private ModelMapper mapper;
 
     @GetMapping
-    public List<OrderResumeDTO> search(OrderFilter orderFilter) {
-        return orderService.list(orderFilter).stream()
-                .map(o -> mapper.map(o, OrderResumeDTO.class))
-                .collect(Collectors.toList());
+    public Page<OrderResumeDTO> search(OrderFilter orderFilter, Pageable page) {
+        final Page<Order> orderPage = orderService.list(orderFilter, page);
+        final List<OrderResumeDTO> orderDTOS = orderPage.getContent().stream()
+                .map(o -> mapper.map(o, OrderResumeDTO.class)).collect(Collectors.toList());
+        return new PageImpl<>(orderDTOS, page, orderPage.getTotalElements());
     }
 
 //    @GetMapping

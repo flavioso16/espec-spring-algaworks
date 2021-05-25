@@ -1,10 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.exception.BusinessException;
@@ -41,8 +41,8 @@ public class OrderService {
 		return orderRepository.findOrFail(orderId);
 	}
 
-	public List<Order> list(OrderFilter filter) {
-		return orderRepository.findAll(OrderSpecs.withFilter(filter));
+	public Page<Order> list(OrderFilter filter, Pageable page) {
+		return orderRepository.findAll(OrderSpecs.withFilter(filter), page);
 	}
 
 	@Transactional

@@ -15,8 +15,10 @@ public class OrderSpecs {
 	public static Specification<Order> withFilter(OrderFilter filter) {
 		return (root, query, builder) -> {
 		   var predicates = new ArrayList<Predicate>();
-		   root.fetch("restaurant").fetch("kitchen");
-		   root.fetch("client");
+		   if(Order.class.equals(query.getResultType())) {
+			   root.fetch("restaurant").fetch("kitchen");
+			   root.fetch("client");
+		   }
 
 		   Optional.ofNullable(filter.getClientId()).ifPresent(clientId ->
 				   predicates.add(builder.equal(root.get("client"), clientId)));

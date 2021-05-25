@@ -1,5 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +37,10 @@ public class KitchenController {
 	private KitchenMapper mapper;
 
 	@GetMapping
-	public Page<KitchenDTO> list(@PageableDefault(size = 2) Pageable pageable) {
-		final Page<Kitchen> kitchenPage = kitchenService.list(pageable);
-		final Page<KitchenDTO> kitchenDtos = new PageImpl<>(
-				mapper.toListDto(kitchenPage.getContent()), pageable, kitchenPage.getTotalElements());
-		return kitchenDtos;
+	public Page<KitchenDTO> list(@PageableDefault(size = 2) Pageable page) {
+		final Page<Kitchen> kitchenPage = kitchenService.list(page);
+		final List<KitchenDTO> kitchenDtos = mapper.toListDto(kitchenPage.getContent());
+		return new PageImpl<>(kitchenDtos, page, kitchenPage.getTotalElements());
 	}
 
 	@GetMapping("/{kitchenId}")
