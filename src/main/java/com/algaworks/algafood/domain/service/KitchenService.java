@@ -2,11 +2,11 @@ package com.algaworks.algafood.domain.service;
 
 import static com.algaworks.algafood.core.constants.MessageConstants.MSG_ENTITY_IN_USE;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,8 +60,8 @@ public class KitchenService {
         return kitchenRepository.findOrFail(kitchenId);
     }
 
-    public List<Kitchen> list() {
-        return kitchenRepository.findAll();
+    public Page<Kitchen> list(Pageable pageable) {
+        return kitchenRepository.findAll(pageable);
     }
 
 
