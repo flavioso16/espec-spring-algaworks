@@ -105,11 +105,11 @@ insert into tb_restaurant_user_responsible(user_id, restaurant_id) values (1, 1)
 insert into tb_order (id, code, restaurant_id, client_id, payment_type_id, address_id,
     status, creation_date, subtotal, shipping_fee, total_value) values
 (1, '9d5fa7b1-b75c-4e3b-99df-d18a68062661', 1, 1, 1, 1, 'CREATED', '2021-04-01 20:34:04', 298.90, 10, 308.90),
-(2, '40e97a21-99b2-4aeb-89fc-fd704eb56519', 4, 1, 2, 1, 'CREATED', '2021-04-01 20:34:04', 79, 0, 79),
-(3, '40e97a21-99b2-4aeb-89fc-dsadd2d2wd2w', 2, 2, 2, 1, 'CREATED', '2021-04-02 20:34:04', 79, 0, 79),
-(4, '40e97a21-99b2-4aeb-89fc-f2f2f23f23f2', 4, 2, 2, 1, 'CREATED', '2021-04-03 20:34:04', 79, 0, 79),
-(5, 'd25c8db0-c166-11eb-aeb9-aba7635450ce', 4, 2, 2, 1, 'CREATED', '2021-04-03 20:34:04', 79, 0, 79),
-(6, 'd25c8e96-c166-11eb-aeba-e70c60f7cbfc', 4, 2, 2, 1, 'CREATED', '2021-04-03 20:34:04', 79, 0, 79);
+(2, '40e97a21-99b2-4aeb-89fc-fd704eb56519', 4, 1, 1, 1, 'CONFIRMED', '2021-04-01 20:34:04', 79, 0, 79),
+(3, '40e97a21-99b2-4aeb-89fc-dsadd2d2wd2w', 2, 2, 2, 1, 'DELIVERED', '2021-04-02 20:34:04', 79, 0, 79),
+(4, '40e97a21-99b2-4aeb-89fc-f2f2f23f23f2', 4, 2, 2, 1, 'CONFIRMED', '2021-04-03 20:34:04', 79, 0, 79),
+(5, 'd25c8db0-c166-11eb-aeb9-aba7635450ce', 4, 2, 2, 1, 'CONFIRMED', '2021-04-03 20:34:04', 79, 0, 79),
+(6, 'd25c8e96-c166-11eb-aeba-e70c60f7cbfc', 4, 2, 2, 1, 'DELIVERED', '2021-04-03 20:34:04', 79, 0, 79);
 
 insert into tb_order_item (id, order_id, product_id, amount, unit_price, total_price, description) values
 (1, 1, 1, 1, 78.9, 78.9, null),

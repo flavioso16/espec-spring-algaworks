@@ -1,15 +1,19 @@
 package com.algaworks.algafood.infrastructure.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Predicate;
 
 import org.springframework.stereotype.Repository;
 
 import com.algaworks.algafood.domain.filter.DailySalesFilter;
 import com.algaworks.algafood.domain.model.Order;
+import com.algaworks.algafood.domain.model.OrderStatus;
 import com.algaworks.algafood.domain.model.dto.DailySales;
 import com.algaworks.algafood.domain.service.SalesQueryService;
 
@@ -41,7 +45,24 @@ public class SalesQueryServiceImpl implements SalesQueryService {
                 builder.sum(root.get("totalValue"))
         );
 
+        var predicates = new ArrayList<Predicate>();
+
+        if(Objects.nonNull(filter.getRestaurantId())) {
+            predicates.add(builder.equal(root.get("restaurant"), filter.getRestaurantId()));
+        }
+
+        if(Objects.nonNull(filter.getCreationDateInitial())) {
+            predicates.add(builder.greaterThanOrEqualTo(root.get("creationDate"), filter.getCreationDateInitial()));
+        }
+
+        if(Objects.nonNull(filter.getCreationDateFinal())) {
+            predicates.add(builder.lessThanOrEqualTo(root.get("creationDate"), filter.getCreationDateFinal()));
+        }
+
+        predicates.add(root.get("status").in(OrderStatus.CONFIRMED, OrderStatus.DELIVERED));
+
         query.select(selection);
+        query.where(predicates.toArray(new Predicate[0]));
         query.groupBy(functionDateOnCreationDate);
 
         return entityManager.createQuery(query).getResultList();
