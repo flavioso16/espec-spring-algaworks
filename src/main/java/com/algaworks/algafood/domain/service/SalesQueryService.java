@@ -14,6 +14,6 @@ import com.algaworks.algafood.domain.model.dto.DailySales;
 public interface SalesQueryService {
     // TODO Move to repository
 
-    List<DailySales> findDailySales(DailySalesFilter filter);
+    List<DailySales> findDailySales(DailySalesFilter filter, final String timeOffset);
 
 }

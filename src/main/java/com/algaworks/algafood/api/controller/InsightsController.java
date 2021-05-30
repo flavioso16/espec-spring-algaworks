@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.filter.DailySalesFilter;
@@ -25,8 +26,8 @@ public class InsightsController {
     private SalesQueryService salesQueryService;
 
     @GetMapping("/daily-sales")
-    public List<DailySales> find(DailySalesFilter filter) {
-        return salesQueryService.findDailySales(filter);
+    public List<DailySales> find(DailySalesFilter filter, @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
+        return salesQueryService.findDailySales(filter, timeOffset);
     }
 
 }
