@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.exception.BusinessException;
 import com.algaworks.algafood.domain.exception.EntityNotFoundException;
+import com.algaworks.algafood.domain.filter.OrderFilter;
 import com.algaworks.algafood.domain.model.Order;
 import com.algaworks.algafood.domain.model.PaymentType;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.OrderRepository;
-import com.algaworks.algafood.domain.repository.filter.OrderFilter;
 import com.algaworks.algafood.infrastructure.repository.spec.OrderSpecs;
 
 @Service
