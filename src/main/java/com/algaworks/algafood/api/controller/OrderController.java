@@ -43,6 +43,7 @@ public class OrderController {
     public Page<OrderResumeDTO> search(OrderFilter orderFilter, Pageable page) {
         // TODO Customizar o Pageable para a partir de um tipo específico já definir os campos que podem ser sort e assim ignorar os inexistentes
         // Poderia criar um CustomPageable<Order> e com isso definir os campos que podem ser sort com anotations dentro da classe por exemplo
+        //https://reflectoring.io/spring-boot-paging/
         page = translatePageable(page);
         final Page<Order> orderPage = orderService.list(orderFilter, page);
         final List<OrderResumeDTO> orderDTOS = orderPage.getContent().stream()
