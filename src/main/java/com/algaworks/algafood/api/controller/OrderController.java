@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.core.data.PageableTranslate;
 import com.algaworks.algafood.domain.dto.OrderDTO;
 import com.algaworks.algafood.domain.dto.OrderResumeDTO;
 import com.algaworks.algafood.domain.model.Order;
 import com.algaworks.algafood.domain.repository.filter.OrderFilter;
 import com.algaworks.algafood.domain.service.OrderService;
 import com.algaworks.algafood.domain.vo.OrderVO;
+import com.google.common.collect.ImmutableMap;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -39,6 +41,9 @@ public class OrderController {
 
     @GetMapping
     public Page<OrderResumeDTO> search(OrderFilter orderFilter, Pageable page) {
+        // TODO Customizar o Pageable para a partir de um tipo específico já definir os campos que podem ser sort e assim ignorar os inexistentes
+        // Poderia criar um CustomPageable<Order> e com isso definir os campos que podem ser sort com anotations dentro da classe por exemplo
+        page = translatePageable(page);
         final Page<Order> orderPage = orderService.list(orderFilter, page);
         final List<OrderResumeDTO> orderDTOS = orderPage.getContent().stream()
                 .map(o -> mapper.map(o, OrderResumeDTO.class)).collect(Collectors.toList());
@@ -102,6 +107,16 @@ public class OrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delivery(@PathVariable String orderCode) {
         orderService.delivery(orderCode);
+    }
+
+    private Pageable translatePageable(Pageable pageable) {
+        var mapping = ImmutableMap.of(
+                "code", "code",
+                "restaurant.name", "restaurant.name",
+                "nameClient", "client.name",
+                "totalValue", "totalValue"
+        );
+        return PageableTranslate.translate(pageable, mapping);
     }
 
 }

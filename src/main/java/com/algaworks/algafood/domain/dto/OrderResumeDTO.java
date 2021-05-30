@@ -17,5 +17,7 @@ public class OrderResumeDTO {
 	private OrderStatus status = OrderStatus.CREATED;
 	private OffsetDateTime creationDate;
 	private RestaurantResumeDTO restaurant;
-	private UserDTO client;
+//	private UserDTO client;
+	private String nameClient;
+
 }
