@@ -41,44 +41,12 @@ public class OrderController {
 
     @GetMapping
     public Page<OrderResumeDTO> search(OrderFilter orderFilter, Pageable page) {
-        // TODO Customizar o Pageable para a partir de um tipo específico já definir os campos que podem ser sort e assim ignorar os inexistentes
-        // Poderia criar um CustomPageable<Order> e com isso definir os campos que podem ser sort com anotations dentro da classe por exemplo
-        //https://reflectoring.io/spring-boot-paging/
         page = translatePageable(page);
         final Page<Order> orderPage = orderService.list(orderFilter, page);
         final List<OrderResumeDTO> orderDTOS = orderPage.getContent().stream()
                 .map(o -> mapper.map(o, OrderResumeDTO.class)).collect(Collectors.toList());
         return new PageImpl<>(orderDTOS, page, orderPage.getTotalElements());
     }
-
-//    @GetMapping
-//    public MappingJacksonValue list(@RequestParam(required = false) String fields) {
-//        final List<OrderResumeDTO> orders = orderService.list().stream()
-//                .map(o -> mapper.map(o, OrderResumeDTO.class))
-//                .collect(Collectors.toList());
-//        MappingJacksonValue ordersWrapper = new MappingJacksonValue(orders);
-//
-//        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-//
-//        if(StringUtils.isNotBlank(fields)) {
-//            filterProvider.addFilter("orderFilter",
-//                    SimpleBeanPropertyFilter.filterOutAllExcept(fields.split(",")));
-//        } else {
-//            filterProvider.addFilter("orderFilter",
-//                    SimpleBeanPropertyFilter.serializeAll());
-//        }
-//
-//        ordersWrapper.setFilters(filterProvider);
-//
-//        return ordersWrapper;
-//    }
-
-//    @GetMapping
-//    public List<OrderResumeDTO> list() {
-//        return orderService.list().stream()
-//                .map(o -> mapper.map(o, OrderResumeDTO.class))
-//                .collect(Collectors.toList());
-//    }
 
     @GetMapping("/{orderCode}")
     public OrderDTO find(@PathVariable String orderCode) {

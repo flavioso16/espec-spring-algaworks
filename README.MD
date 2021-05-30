@@ -12,6 +12,8 @@ O AlgaFood é uma API Rest para restaurante
 - Lombok 1.18.8
 - Flyway 5.2.4
 - MySQL 5.7
+- Modelmapper 2.3.0 - Is refactoring safe object mapping library that automatically maps objects to each other
+- Squiggly 1.3.18 - Is a Jackson JSON PropertyFilter
 
 ## Rodando Projeto linha de comando
 
