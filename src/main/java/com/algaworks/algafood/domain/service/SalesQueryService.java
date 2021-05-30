@@ -12,6 +12,7 @@ import com.algaworks.algafood.domain.model.dto.DailySales;
  * @since 5/30/21 1:06 PM
  */
 public interface SalesQueryService {
+    // TODO Move to repository
 
     List<DailySales> findDailySales(DailySalesFilter filter);
 
